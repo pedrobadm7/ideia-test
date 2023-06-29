@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "ideia-test",
+    "slug": "ideia-test",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "ideia-test"
+}
