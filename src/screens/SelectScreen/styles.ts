@@ -3,6 +3,9 @@ import styled from 'styled-components/native';
 import { DefaultTheme } from 'styled-components/native';
 import {AntDesign} from '@expo/vector-icons'
 
+interface IListProps {
+  isActive: boolean;
+}
 
 export const Container = styled.View`
   flex: 1;
@@ -26,12 +29,14 @@ export const Title = styled.Text`
   font-size: ${RFValue(18)}px;
 `;
 
-export const List = styled.View`
+export const List = styled.TouchableOpacity<IListProps>`
   width: 100%;
   padding: ${RFValue(15)}px;
 
   flex-direction: row;
   align-items: center;
+
+  background-color: ${({isActive, theme}: {isActive: IListProps, theme: DefaultTheme}) => isActive ? theme.colors.secondary_light: theme.colors.background}
 `;
 
 export const Icon = styled(AntDesign)`

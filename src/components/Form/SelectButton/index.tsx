@@ -2,11 +2,12 @@ import * as S from './styles';
 
 interface ISelectProps {
   title: string;
+  onPress: () => void;
 }
 
-export function Select({title}: ISelectProps){
+export function SelectButton({title, onPress}: ISelectProps){
   return (
-    <S.Container>
+    <S.Container onPress={onPress}>
       <S.Title>
         {title}
       </S.Title>

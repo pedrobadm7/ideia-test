@@ -3,18 +3,24 @@ import * as S from './styles';
 import { genderData } from '../../utils/gender';
 import { Button } from '../../components/Form/Button';
 
-interface IGender {
+export interface IGender {
   key: string;
-  gender: string;
+  name: string;
+  icon: string;
 }
 
 interface ISelectScreenProps {
-  gender: string;
+  data: IGender;
   setGender: (gender: IGender) =>void;
   closeSelectCategory: () => void;
 }
 
-export function SelectScreen({gender, setGender, closeSelectCategory}: ISelectScreenProps) {
+export function SelectScreen({data, setGender, closeSelectCategory}: ISelectScreenProps) {
+  
+  function handleGenderSelect(gender: IGender) {
+    setGender(gender)
+  }
+
   return (
     <S.Container>
       <S.Header>
@@ -26,7 +32,10 @@ export function SelectScreen({gender, setGender, closeSelectCategory}: ISelectSc
         style={{flex: 1, width: '100%'}}
         keyExtractor={item => item.key}
         renderItem={({item}) => (
-          <S.List>
+          <S.List 
+          onPress={() => handleGenderSelect(item)}
+          isActive={data.key === item.key}
+          >
             <S.Icon name={item.icon} />
             <S.Name>{item.name}</S.Name>
           </S.List>
@@ -35,7 +44,7 @@ export function SelectScreen({gender, setGender, closeSelectCategory}: ISelectSc
       />
 
       <S.Footer>
-        <Button title='Selecionar'/>
+        <Button title='Selecionar' onPress={closeSelectCategory}/>
       </S.Footer>
     </S.Container>
   )
