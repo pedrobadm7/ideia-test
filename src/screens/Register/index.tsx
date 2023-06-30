@@ -112,6 +112,7 @@ export function Register() {
             name='name'
             control={control}
             placeholder='Nome Completo'
+            autoCapitalize='words'
           />
           <InputForm 
             name='birthday'
