@@ -1,36 +1,43 @@
 
+import { useEffect, useState } from 'react'
 import { HightlightCard } from '../../components/HighlightCard'
 import { IPersonCardProps, PersonCard } from '../../components/PersonCard'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as S from './styles'
 
-const data: IPersonCardProps[] = [
-  {
-    id: '1',
-    name: 'BARROS SOLUÇÕES DIGITAIS LTDA',
-    type: 'legal_person',
-    date: '13/04/2023'
-  }, 
-  {
-    id: '2',
-    name: 'Pedro Barros',
-    type: 'physical_person',
-    date: '25/05/2023'
-  },
-  {
-    id: '3',
-    name: 'SOLO FORTE AGROPECUARIA LTDA',
-    type: 'legal_person',
-    date: '26/05/2023'
-  },
-  {
-    id: '4',
-    name: 'Adriano Barros',
-    type: 'physical_person',
-    date: '26/05/2023'
-  }
-]
-
 export function Dashboard(){
+const [data, setData] = useState<IPersonCardProps[]>();
+
+
+async function loadPersons() {
+  const dataKey = '@ideiaTest:persons';
+  const response = await AsyncStorage.getItem(dataKey);
+
+  const persons = response ? JSON.parse(response) : [];
+
+  const personsFormatted: IPersonCardProps[] = persons.map((person: IPersonCardProps) => {
+    const date = Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit'
+    }).format(new Date(person.date));
+
+    return {
+      id: person.id,
+      name: person.name,
+      type: person.type,
+      date,
+    }
+
+  });
+
+  setData(personsFormatted)
+}
+
+useEffect(() => {
+  loadPersons()
+}, []);
+
   return (
    <S.Container>
     <S.Header>
@@ -50,7 +57,7 @@ export function Dashboard(){
     <S.HighlightCards>
       <HightlightCard 
         title="Pessoas físicas" 
-        amount="57" 
+        amount={String(data?.length)} 
         lastRegister="último cadastro feito em 27 de junho"
         type='physical_person'
       />

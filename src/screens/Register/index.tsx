@@ -51,7 +51,7 @@ export function Register() {
 
   const {control, handleSubmit, reset} = useForm();
 
-  const dataKey = '@ideiaTest:persons';
+  
 
   function resetForm() {
     reset()
@@ -96,6 +96,8 @@ export function Register() {
     }
 
     try {
+      const dataKey = '@ideiaTest:persons';
+
       const data = await AsyncStorage.getItem(dataKey);
       const currentData = data ? JSON.parse(data) : [];
 
