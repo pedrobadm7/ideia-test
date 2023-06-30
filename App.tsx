@@ -1,5 +1,5 @@
 import theme from './src/global/styles/theme';
-import { Register } from './src/screens/Register';
+import { SelectScreen } from './src/screens/SelectScreen';
 import {ThemeProvider} from 'styled-components'
 import {
   useFonts, 
@@ -26,7 +26,7 @@ export default function App() {
 
   return (
    <ThemeProvider theme={theme} >
-      <Register />
+      <SelectScreen />
    </ThemeProvider>
   );
 }
