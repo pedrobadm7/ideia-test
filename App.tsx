@@ -1,5 +1,5 @@
 import theme from './src/global/styles/theme';
-import { Dashboard } from './src/screens/Dashboard';
+import { Register } from './src/screens/Register';
 import {ThemeProvider} from 'styled-components'
 import {
   useFonts, 
@@ -21,12 +21,12 @@ export default function App() {
   })
 
   if (!fontsLoaded) {
-    return null
+    return <AppLoading />
   }
 
   return (
    <ThemeProvider theme={theme} >
-      <Dashboard />
+      <Register />
    </ThemeProvider>
   );
 }
