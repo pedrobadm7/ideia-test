@@ -8,6 +8,8 @@ import { Alert, Modal } from 'react-native';
 import {  SelectScreen } from '../SelectScreen';
 import { useForm } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import uuid from 'react-native-uuid'
+import { useNavigation } from '@react-navigation/native'
 
 interface IFormData {
   address?: string;
@@ -29,6 +31,12 @@ interface IFormData {
   phone_number?: string;
   professional_cellhpone?: string;
   state_registration?: string;
+  uuid?: string;
+  date?: Date;
+}
+
+type NavigationProps = {
+  navigate:(screen:string) => void;
 }
 
 export function Register() {
@@ -39,6 +47,7 @@ export function Register() {
   });
   const [personType, setPersonType] = useState('physical_person');
   const [selectModalOpen, setSelectModalOpen] = useState(false);
+  const navigation = useNavigation<NavigationProps>();
 
   const {control, handleSubmit, reset} = useForm();
 
@@ -62,7 +71,9 @@ export function Register() {
   }
 
   async function handleRegister(form: IFormData) {
-    const newTransaction = {
+    const newPerson= {
+      id: String(uuid.v4()),
+      date: new Date(),
       address: form.address,
       birthday: form.birthday, 
       business: form.business,
@@ -89,24 +100,25 @@ export function Register() {
       const currentData = data ? JSON.parse(data) : [];
 
       const dataFormatted = [  ...currentData,
-        newTransaction]
+        newPerson]
 
       await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
+
+      setPersonType('');
+      setGender({
+        key: 'male',
+        name: 'Male',
+        icon: 'man'
+      });
+      resetForm()
+
+      navigation.navigate('Listagem')
       
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possível salvar!')
     }
   }
-
-  useEffect(() => {
-    async function loadData() {
-      const data = await AsyncStorage.getItem(dataKey);
-      console.log(JSON.parse(data!))
-    }
-
-    loadData()
-  }, [])
 
   return (
     <S.Container>
