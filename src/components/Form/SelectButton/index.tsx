@@ -8,7 +8,7 @@ interface ISelectProps {
 export function SelectButton({title, onPress}: ISelectProps){
   return (
     <S.Container onPress={onPress}>
-      <S.Title>
+      <S.Title title={title}>
         {title}
       </S.Title>
       <S.Icon name='chevron-down'/>

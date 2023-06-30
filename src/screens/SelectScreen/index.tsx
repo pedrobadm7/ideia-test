@@ -6,7 +6,7 @@ import { Button } from '../../components/Form/Button';
 export interface IGender {
   key: string;
   name: string;
-  icon: string;
+  icon?: string;
 }
 
 interface ISelectScreenProps {

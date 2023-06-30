@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../../components/Form/Button';
 import { InputForm } from '../../components/Form/InputForm';
 import { PersonTypeButton } from '../../components/Form/PersonTypeButton';
 import * as S from './styles';
 import { SelectButton } from '../../components/Form/SelectButton';
-import { Alert, Modal } from 'react-native';
+import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
 import {  SelectScreen } from '../SelectScreen';
 import { useForm } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -41,9 +41,8 @@ type NavigationProps = {
 
 export function Register() {
   const [gender, setGender] = useState({
-    key: 'male',
-    name: 'Male',
-    icon: 'man'
+    key: 'gender',
+    name: 'Gender',
   });
   const [personType, setPersonType] = useState('physical_person');
   const [selectModalOpen, setSelectModalOpen] = useState(false);
@@ -71,6 +70,10 @@ export function Register() {
   }
 
   async function handleRegister(form: IFormData) {
+    if(gender.key === 'gender') {
+      return Alert.alert('Selecione um gênero')
+    }
+
     const newPerson= {
       id: String(uuid.v4()),
       date: new Date(),
@@ -110,7 +113,6 @@ export function Register() {
       setGender({
         key: 'male',
         name: 'Male',
-        icon: 'man'
       });
       resetForm()
 
@@ -123,151 +125,155 @@ export function Register() {
   }
 
   return (
-    <S.Container>
-      <S.Header>
-        <S.Title>Cadastro</S.Title>
-      </S.Header>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <S.Container>   
+          <S.Header>
+          <S.Title>Cadastro</S.Title>
+        </S.Header>
 
-      <S.Form>
-        <S.Fields>
-         
-         <S.PersonTypes>
-            <PersonTypeButton 
-              type='physical_person' 
-              onPress={() => handlePersonTypeSelect('physical_person')}
-              isActive={personType === 'physical_person'}
-            />
-            <PersonTypeButton 
-              type='legal_person' 
-              onPress={() => handlePersonTypeSelect('legal_person')}
-              isActive={personType === 'legal_person'}
-            />
-         </S.PersonTypes>
+        <S.Form>
+          <S.Fields>
           
-          {personType === 'physical_person' ? (
-          <>
-            <InputForm 
-            name='name'
-            control={control}
-            placeholder='Nome Completo'
-            autoCapitalize='words'
-          />
-          <InputForm 
-            name='birthday'
-            control={control}
-            placeholder='Data de nascimento'
-          />
-          <SelectButton 
-            title={gender.name}
-            onPress={handleOpenSelectModal}
-          />
-          <InputForm
-            name='cpf' 
-            control={control}
-            placeholder='CPF'
-          />
-          <InputForm
-            name='doc_id' 
-            control={control}
-            placeholder='Documento de identidade'
-          />
-          <InputForm
-            name='address' 
-            control={control}
-            placeholder='Endereço'
-          />
-          <InputForm
-            name='phone_number' 
-            control={control}
-            placeholder='Numero de Telefone'
-          />
-          <InputForm
-            name='email' 
-            control={control}
-            placeholder='Email'
-          />
-          <InputForm
-            name='marial_status'
-            control={control}
-            placeholder='Estado civil'
-          />
-          <InputForm
-            name='job'
-            control={control}
-            placeholder='Profissão'
-          />
-          <InputForm
-            name='nationality'
-            control={control}
-            placeholder='Nacionalidade'
-          />
-          </>
-          ) : (
-           <>
-            <InputForm
-              name='corporate_name'
+          <S.PersonTypes>
+              <PersonTypeButton 
+                type='physical_person' 
+                onPress={() => handlePersonTypeSelect('physical_person')}
+                isActive={personType === 'physical_person'}
+              />
+              <PersonTypeButton 
+                type='legal_person' 
+                onPress={() => handlePersonTypeSelect('legal_person')}
+                isActive={personType === 'legal_person'}
+              />
+          </S.PersonTypes>
+            
+            {personType === 'physical_person' ? (
+            <>
+              <InputForm 
+              name='name'
               control={control}
-              placeholder='Razão Social'
+              placeholder='Nome Completo'
+              autoCapitalize='words'
             />
             <InputForm 
-              name='cnpj'
+              name='birthday'
               control={control}
-              placeholder='CNPJ'
+              placeholder='Data de nascimento'
+            />
+            <SelectButton 
+              title={gender.name}
+              onPress={handleOpenSelectModal}
             />
             <InputForm
-              name='state_registration'
+              name='cpf' 
               control={control}
-              placeholder='Inscrição Estadual'
+              placeholder='CPF'
             />
             <InputForm
-              name='opening_date' 
+              name='doc_id' 
               control={control}
-              placeholder='Data de abertura da empresa'
-            />
-            <InputForm 
-              name='fantasy_name'
-              control={control}
-              placeholder='Nome fantasia'
-            />
-            <InputForm 
-              name='comercial_address'
-              control={control}
-              placeholder='Endereço Comercial'
+              placeholder='Documento de identidade'
             />
             <InputForm
-              name='professional_cellphone'
+              name='address' 
               control={control}
-              placeholder='Número de telefone'
+              placeholder='Endereço'
             />
-            <InputForm 
-              name='business'
+            <InputForm
+              name='phone_number' 
               control={control}
-              placeholder='Ramo de atividade da empresa'
+              placeholder='Numero de Telefone'
             />
-            <InputForm 
-              name='legal_representative'
+            <InputForm
+              name='email' 
               control={control}
-              placeholder='Representante legal'
+              placeholder='Email'
             />
-           </>
-          )}
-        </S.Fields>
+            <InputForm
+              name='marial_status'
+              control={control}
+              placeholder='Estado civil'
+            />
+            <InputForm
+              name='job'
+              control={control}
+              placeholder='Profissão'
+            />
+            <InputForm
+              name='nationality'
+              control={control}
+              placeholder='Nacionalidade'
+            />
+            </>
+            ) : (
+            <>
+              <InputForm
+                name='corporate_name'
+                control={control}
+                placeholder='Razão Social'
+              />
+              <InputForm 
+                name='cnpj'
+                control={control}
+                placeholder='CNPJ'
+              />
+              <InputForm
+                name='state_registration'
+                control={control}
+                placeholder='Inscrição Estadual'
+              />
+              <InputForm
+                name='opening_date' 
+                control={control}
+                placeholder='Data de abertura da empresa'
+              />
+              <InputForm 
+                name='fantasy_name'
+                control={control}
+                placeholder='Nome fantasia'
+              />
+              <InputForm 
+                name='comercial_address'
+                control={control}
+                placeholder='Endereço Comercial'
+              />
+              <InputForm
+                name='professional_cellphone'
+                control={control}
+                placeholder='Número de telefone'
+              />
+              <InputForm 
+                name='business'
+                control={control}
+                placeholder='Ramo de atividade da empresa'
+              />
+              <InputForm 
+                name='legal_representative'
+                control={control}
+                placeholder='Representante legal'
+              />
+            </>
+            )}
+          </S.Fields>
 
-        <S.ButtonContainer>
-          <Button 
-            title='Enviar' 
-            onPress={handleSubmit(handleRegister)}
-          />
-        </S.ButtonContainer>
-      </S.Form>
+          <S.ButtonContainer>
+            <Button 
+              title='Enviar' 
+              onPress={handleSubmit(handleRegister)}
+            />
+          </S.ButtonContainer>
+        </S.Form>
 
-      <Modal visible={selectModalOpen}>
-        <SelectScreen 
-          data={gender}
-          setGender={setGender}
-          closeSelectCategory={handleCloseSelectModal}
-        />
-      </Modal>
-    </S.Container>
+      
+        
+        <Modal visible={selectModalOpen}>
+          <SelectScreen 
+            data={gender}
+            setGender={setGender}
+            closeSelectCategory={handleCloseSelectModal}
+          />
+        </Modal>
+      </S.Container>
+    </TouchableWithoutFeedback>
   )
 }

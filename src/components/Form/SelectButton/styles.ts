@@ -16,7 +16,7 @@ export const Container = styled.TouchableOpacity.attrs({
 
 export const Title = styled.Text`
   font-family: ${({theme}: DefaultTheme) => theme.fonts.regular};
-  color: ${({theme}: DefaultTheme) => theme.colors.text};
+  color: ${({theme, title}: {theme:DefaultTheme, title: string}) => title === 'Gender' ? theme.colors.text : theme.colors.text_dark};
   
   font-size: ${RFValue(14)}px;
   padding: 18px 16px;
