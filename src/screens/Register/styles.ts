@@ -42,4 +42,6 @@ export const ButtonContainer = styled.View`
 export const PersonTypes = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  
+  margin-bottom: ${RFValue(15)}px;
 `;

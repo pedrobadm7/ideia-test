@@ -3,9 +3,10 @@ import { Button } from '../../components/Form/Button'
 import { Input } from '../../components/Form/Input'
 import { PersonTypeButton } from '../../components/Form/PersonTypeButton'
 import * as S from './styles'
+import { Select } from '../../components/Form/Select'
 
 export function Register() {
-  const [personType, setPersonType] = useState('');
+  const [personType, setPersonType] = useState('physical_person');
 
   function handlePersonTypeSelect(type: 'physical_person' | 'legal_person') {
     setPersonType(type)
@@ -33,39 +34,73 @@ export function Register() {
             />
          </S.PersonTypes>
           
-          <Input 
+          {personType === 'physical_person' ? (
+          <>
+            <Input 
             placeholder='Nome Completo'
           />
           <Input 
-          placeholder='Data de nascimento'
+            placeholder='Data de nascimento'
+          />
+          <Select 
+            title='Gênero'
           />
           <Input 
-          placeholder='Gênero'
+            placeholder='CPF'
           />
           <Input 
-          placeholder='CPF'
+            placeholder='Documento de identidade'
           />
           <Input 
-          placeholder='Documento de identidade'
+            placeholder='Endereço'
           />
           <Input 
-          placeholder='Endereço'
+            placeholder='Numero de Telefone'
           />
           <Input 
-          placeholder='Numero de Telefone'
+            placeholder='Email'
           />
           <Input 
-          placeholder='Email'
+            placeholder='Estado civil'
           />
           <Input 
-          placeholder='Estado civil'
+            placeholder='Profissão'
           />
           <Input 
-          placeholder='Profissão'
+            placeholder='Nacionalidade'
           />
-          <Input 
-          placeholder='Nacionalidade'
-          />
+          </>
+          ) : (
+           <>
+            <Input 
+              placeholder='Razão Social'
+            />
+            <Input 
+              placeholder='CNPJ'
+            />
+            <Input 
+              placeholder='Inscrição Estadual'
+            />
+            <Input 
+              placeholder='Data de abertura da empresa'
+            />
+            <Input 
+              placeholder='Nome fantasia'
+            />
+            <Input 
+              placeholder='Endereço Comercial'
+            />
+            <Input 
+              placeholder='Número de telefone'
+            />
+            <Input 
+              placeholder='Ramo de atividade da empresa'
+            />
+            <Input 
+              placeholder='Representante legal'
+            />
+           </>
+          )}
         </S.Fields>
 
         <S.ButtonContainer>
