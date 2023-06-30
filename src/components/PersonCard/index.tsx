@@ -1,19 +1,40 @@
 import * as S from './styles';
 
-export function PersonCard() {
+export interface IPersonCardProps {
+  name: string;
+  type: 'physical_person' | 'juridic_person';
+  date: string;
+}
+
+const categoryName = {
+  'physical_person': 'Pessoa Física',
+  'juridic_person': 'Pessoa Juridica'
+}
+
+const icon = {
+  'physical_person': 'person',
+  'juridic_person': 'md-business-sharp'
+}
+
+export function PersonCard({name, type, date}: IPersonCardProps) {
   return (
     <S.Container>
-      <S.Title>BARROS SOLUÇÕES DIGITAIS LTDA</S.Title>
+      <S.Title>
+        {name}
+      </S.Title>
       
       <S.Footer>
         <S.Category>
-          <S.Icon name='md-business-sharp'/>
+
+          <S.Icon name={icon[type]}/>
+
           <S.CategoryName>
-            Pessoa Jurídica 
+           {categoryName[type]}
           </S.CategoryName>
+
         </S.Category>
-        
-        <S.Date>13/04/2020</S.Date>
+
+        <S.Date>{date}</S.Date>
       </S.Footer>
     </S.Container>
   )

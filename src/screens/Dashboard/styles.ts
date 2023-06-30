@@ -80,3 +80,7 @@ export const Title = styled.Text`
   font-family: ${({theme}: DefaultTheme) => theme.fonts.regular};
   margin-bottom: 16px;
 `;
+
+export const PersonList = styled.FlatList`
+
+`;
