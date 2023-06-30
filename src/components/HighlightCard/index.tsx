@@ -1,16 +1,28 @@
 import * as S from './styles'
 
-export function HightlightCard() {
+interface IHighlightCardProps {
+  title: string;
+  amount: string;
+  lastRegister: string;
+  type: 'physical_person' | 'juridic_person'
+}
+
+const icon = {
+  'physical_person': 'person',
+  'juridic_person': 'md-business-sharp'
+}
+
+export function HightlightCard({title, amount, lastRegister, type}: IHighlightCardProps) {
   return (
     <S.Container>
       <S.Header>
-        <S.Title>Pessoas físicas</S.Title>
-        <S.Icon name='person' />
+        <S.Title>{title}</S.Title>
+        <S.Icon name={icon[type]} />
       </S.Header>
 
       <S.Footer>
-        <S.Amount>Total: 57</S.Amount>
-        <S.LastRegister>Último cadastro dia 13 de abril</S.LastRegister>
+        <S.Amount>Total: {amount}</S.Amount>
+        <S.LastRegister>{lastRegister}</S.LastRegister>
       </S.Footer>
     </S.Container>
   )

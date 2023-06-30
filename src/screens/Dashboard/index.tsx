@@ -21,9 +21,18 @@ export function Dashboard(){
     </S.Header>
 
     <S.HighlightCards>
-      <HightlightCard />
-      <HightlightCard />
-      <HightlightCard />
+      <HightlightCard 
+        title="Pessoas físicas" 
+        amount="57" 
+        lastRegister="último cadastro feito em 27 de junho"
+        type='physical_person'
+      />
+      <HightlightCard 
+          title="Pessoas juridicas" 
+          amount="88" 
+          lastRegister="último cadastro feito em 15 de junho"
+        type='juridic_person'
+      />
     </S.HighlightCards>
   </S.Container>  
   )
