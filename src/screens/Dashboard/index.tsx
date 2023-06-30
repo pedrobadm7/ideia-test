@@ -1,5 +1,6 @@
 
 import { HightlightCard } from '../../components/HighlightCard'
+import { PersonCard } from '../../components/PersonCard'
 import * as S from './styles'
 
 
@@ -34,6 +35,12 @@ export function Dashboard(){
         type='juridic_person'
       />
     </S.HighlightCards>
+
+    <S.Persons>
+      <S.Title>Listagem</S.Title>
+
+      <PersonCard />
+    </S.Persons>
   </S.Container>  
   )
 }
