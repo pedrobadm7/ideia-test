@@ -6,38 +6,66 @@ import * as S from './styles';
 import { SelectButton } from '../../components/Form/SelectButton';
 import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
 import {  SelectScreen } from '../SelectScreen';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import uuid from 'react-native-uuid'
-import { useNavigation } from '@react-navigation/native'
+import uuid from 'react-native-uuid';
+import { useNavigation } from '@react-navigation/native';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup'
 
 interface IFormData {
-  address?: string;
-  birthday?: string;
-  business?: string;
-  cnpj?: string;
-  comercial_address?: string;
-  corporate_name?: string;
-  cpf?: string;
-  doc_id?: string;
-  email?: string;
-  fantasy_name?: string;
-  job?: string;
-  legal_representative?: string;
-  marial_status?: string;
-  name?: string;
-  nationality?: string;
-  opening_date?: string;
-  phone_number?: string;
-  professional_cellhpone?: string;
-  state_registration?: string;
-  uuid?: string;
-  date?: Date;
+  address: string;
+  birth_date: string;
+  business: string;
+  cnpj: string;
+  comercial_address: string;
+  corporate_name: string;
+  cpf: string;
+  doc_id: string;
+  email: string;
+  fantasy_name: string;
+  job: string;
+  legal_representative: string;
+  marial_status: string;
+  name: string;
+  nationality: string;
+  opening_date: string;
+  phone_number: string;
+  professional_cellhpone: string;
+  state_registration: string;
+  id: string;
+  date: Date;
 }
 
 type NavigationProps = {
   navigate:(screen:string) => void;
 }
+
+const schema = Yup.object().shape({
+  address: Yup.string().required('Endereço é obrigatório'),
+  birth_date: Yup.number().required('Data de nascimento é obrigatório'),
+  business: Yup.string(),
+  cnpj: Yup.string().required('CNPJ é obrigatório'),
+  comercial_address: Yup.string(),
+  corporate_name: Yup.string().required('Nome da empresa é obrigatório'),
+  cpf: Yup.string().required('CPF é obrigatório'),
+  doc_id: Yup.string(),
+  email: Yup.string().email(),
+  fantasy_name: Yup.string(),
+  job: Yup.string(),
+  legal_representative: Yup.string(),
+  marial_status: Yup.string(),
+  name: Yup.string().required('Nome é obrigatório'),
+  nationality: Yup.string(),
+  opening_date: Yup.string(),
+  phone_number: Yup.string(),
+  professional_cellphone: Yup.string(),
+  state_registration: Yup.string(),
+  id: Yup.string(),
+  date: Yup.date(),
+  type: Yup.string().oneOf(['physical_person', 'legal_person']),
+  gender: Yup.string(),
+})
 
 export function Register() {
   const [gender, setGender] = useState({
@@ -48,7 +76,14 @@ export function Register() {
   const [selectModalOpen, setSelectModalOpen] = useState(false);
   const navigation = useNavigation<NavigationProps>();
 
-  const {control, handleSubmit, reset} = useForm();
+  const {
+    control, 
+    handleSubmit, 
+    reset, 
+    formState: {errors}
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
 
   
 
@@ -69,16 +104,16 @@ export function Register() {
     setSelectModalOpen(true)
   }
 
-  async function handleRegister(form: IFormData) {
-    if(gender.key === 'gender') {
+  async function handleRegister(form: FieldValues) {
+    if(gender.key === 'gender' && personType === 'physical_person') {
       return Alert.alert('Selecione um gênero')
     }
 
-    const newPerson= {
+    const newPerson: IFormData= {
       id: String(uuid.v4()),
       date: new Date(),
       address: form.address,
-      birthday: form.birthday, 
+      birth_date: form.birth_date, 
       business: form.business,
       cnpj: form.cnpj,
       comercial_address: form.comercial_address,
@@ -151,14 +186,16 @@ export function Register() {
             <>
               <InputForm 
               name='name'
-              control={control}
+              control={control as any}
               placeholder='Nome Completo'
               autoCapitalize='words'
+              error={errors.name && errors.name.message}
             />
             <InputForm 
-              name='birthday'
-              control={control}
+              name='birth_date'
+              control={control as any}
               placeholder='Data de nascimento'
+              error={errors.birth_date && errors.birth_date.message}
             />
             <SelectButton 
               title={gender.name}
@@ -166,91 +203,108 @@ export function Register() {
             />
             <InputForm
               name='cpf' 
-              control={control}
+              control={control as any}
               placeholder='CPF'
+              error={errors.cpf && errors.cpf.message}
             />
             <InputForm
               name='doc_id' 
-              control={control}
+              control={control as any}
               placeholder='Documento de identidade'
+              error={errors.doc_id && errors.doc_id.message}
             />
             <InputForm
               name='address' 
-              control={control}
+              control={control as any}
               placeholder='Endereço'
+              error={errors.address && errors.address.message}
             />
             <InputForm
               name='phone_number' 
-              control={control}
+              control={control as any}
               placeholder='Numero de Telefone'
+              error={errors.phone_number && errors.phone_number.message}
             />
             <InputForm
               name='email' 
-              control={control}
+              control={control as any}
               placeholder='Email'
+              error={errors.email && errors.email.message}
             />
             <InputForm
               name='marial_status'
-              control={control}
+              control={control as any}
               placeholder='Estado civil'
+              error={errors.marial_status && errors.marial_status.message}
             />
             <InputForm
               name='job'
-              control={control}
+              control={control as any}
               placeholder='Profissão'
+              error={errors.job && errors.job.message}
             />
             <InputForm
               name='nationality'
-              control={control}
+              control={control as any}
               placeholder='Nacionalidade'
+              error={errors.nationality && errors.nationality.message}
             />
             </>
             ) : (
             <>
               <InputForm
                 name='corporate_name'
-                control={control}
+                control={control as any as any}
                 placeholder='Razão Social'
+                error={errors.corporate_name && errors.corporate_name.message}
               />
               <InputForm 
                 name='cnpj'
-                control={control}
+                control={control as any}
                 placeholder='CNPJ'
+                error={errors.cnpj && errors.cnpj.message}
               />
               <InputForm
                 name='state_registration'
-                control={control}
+                control={control as any}
                 placeholder='Inscrição Estadual'
+                error={errors.state_registration && errors.state_registration.message}
               />
               <InputForm
                 name='opening_date' 
-                control={control}
+                control={control as any}
                 placeholder='Data de abertura da empresa'
+                error={errors.opening_date && errors.opening_date.message}
               />
               <InputForm 
                 name='fantasy_name'
-                control={control}
+                control={control as any}
                 placeholder='Nome fantasia'
+                error={errors.fantasy_name && errors.fantasy_name.message}
               />
               <InputForm 
                 name='comercial_address'
-                control={control}
+                control={control as any}
                 placeholder='Endereço Comercial'
+                error={errors.comercial_address && errors.comercial_address.message}
               />
               <InputForm
                 name='professional_cellphone'
-                control={control}
+                control={control as any}
                 placeholder='Número de telefone'
+                error={errors.professional_cellphone && errors.professional_cellphone.message}
               />
               <InputForm 
                 name='business'
-                control={control}
+                control={control as any}
                 placeholder='Ramo de atividade da empresa'
+                error={errors.business && errors.business.message}
               />
               <InputForm 
                 name='legal_representative'
-                control={control}
+                control={control as any}
                 placeholder='Representante legal'
+                error={errors.legal_representative && errors.legal_representative.message}
               />
             </>
             )}
