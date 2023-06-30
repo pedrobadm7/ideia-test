@@ -1,6 +1,7 @@
 import * as S from './styles';
 
 export interface IPersonCardProps {
+  id?: string;
   name: string;
   type: 'physical_person' | 'juridic_person';
   date: string;

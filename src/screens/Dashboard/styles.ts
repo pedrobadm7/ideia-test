@@ -1,7 +1,9 @@
 import styled, { DefaultTheme } from 'styled-components/native'
 import { RFPercentage, RFValue} from 'react-native-responsive-fontsize'
 import {Feather} from '@expo/vector-icons'
-import {getStatusBarHeight} from 'react-native-iphone-x-helper'
+import {getBottomSpace, getStatusBarHeight} from 'react-native-iphone-x-helper'
+import { FlatList } from 'react-native';
+import { IPersonCardProps } from '../../components/PersonCard';
 
 export const Container = styled.View`
   flex: 1;
@@ -81,6 +83,9 @@ export const Title = styled.Text`
   margin-bottom: 16px;
 `;
 
-export const PersonList = styled.FlatList`
-
-`;
+export const PersonList = styled(FlatList as new () => FlatList<IPersonCardProps>).attrs({
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: {
+    paddingBottom: getBottomSpace() + 20
+  }
+})``;

@@ -1,26 +1,29 @@
 
-import { getBottomSpace } from 'react-native-iphone-x-helper'
 import { HightlightCard } from '../../components/HighlightCard'
 import { IPersonCardProps, PersonCard } from '../../components/PersonCard'
 import * as S from './styles'
 
 const data: IPersonCardProps[] = [
   {
+    id: '1',
     name: 'BARROS SOLUÇÕES DIGITAIS LTDA',
     type: 'juridic_person',
     date: '13/04/2023'
   }, 
   {
+    id: '2',
     name: 'Pedro Barros',
     type: 'physical_person',
     date: '25/05/2023'
   },
   {
+    id: '3',
     name: 'SOLO FORTE AGROPECUARIA LTDA',
     type: 'juridic_person',
     date: '26/05/2023'
   },
   {
+    id: '4',
     name: 'Adriano Barros',
     type: 'physical_person',
     date: '26/05/2023'
@@ -63,12 +66,13 @@ export function Dashboard(){
       <S.Title>Listagem</S.Title>
 
       <S.PersonList 
-      data={data}
-      renderItem={({item}: {item: IPersonCardProps}) => <PersonCard name={item.name} type={item.type as IPersonCardProps['type']} date={item.date}/>}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{
-        paddingBottom: getBottomSpace() + 20
-      }}
+        data={data}
+        keyExtractor={(item: IPersonCardProps) => item.id}
+        renderItem={({item: {name, type, date}}: {item: IPersonCardProps}) => <PersonCard 
+          name={name} 
+          type={type} 
+          date={date}
+        />}
       />
          
     </S.Persons>
