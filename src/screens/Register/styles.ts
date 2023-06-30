@@ -24,8 +24,17 @@ export const Title = styled.Text`
   color: ${({theme}: DefaultTheme) => theme.colors.shape };
 `;
 
-export const Form = styled.View`
+export const Form = styled.ScrollView`
   flex: 1;
   width: 100%;
+  margin: ${RFValue(15)}px 0;
   padding: 24px;
+`;
+
+export const Fields = styled.View`
+`;
+
+export const ButtonContainer = styled.View`
+  margin: 25px 0;
+  padding-bottom: 15px;
 `;

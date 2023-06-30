@@ -3,18 +3,18 @@ import * as S from './styles';
 export interface IPersonCardProps {
   id?: string;
   name: string;
-  type: 'physical_person' | 'juridic_person';
+  type: 'physical_person' | 'legal_person';
   date: string;
 }
 
 const categoryName = {
   'physical_person': 'Pessoa Física',
-  'juridic_person': 'Pessoa Juridica'
+  'legal_person': 'Pessoa Juridica'
 }
 
 const icon = {
   'physical_person': 'person',
-  'juridic_person': 'md-business-sharp'
+  'legal_person': 'md-business-sharp'
 }
 
 export function PersonCard({name, type, date}: IPersonCardProps) {

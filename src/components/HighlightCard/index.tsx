@@ -4,12 +4,12 @@ interface IHighlightCardProps {
   title: string;
   amount: string;
   lastRegister: string;
-  type: 'physical_person' | 'juridic_person'
+  type: 'physical_person' | 'legal_person'
 }
 
 const icon = {
   'physical_person': 'person',
-  'juridic_person': 'md-business-sharp'
+  'legal_person': 'md-business-sharp'
 }
 
 export function HightlightCard({title, amount, lastRegister, type}: IHighlightCardProps) {

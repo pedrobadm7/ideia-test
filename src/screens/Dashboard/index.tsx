@@ -7,7 +7,7 @@ const data: IPersonCardProps[] = [
   {
     id: '1',
     name: 'BARROS SOLUÇÕES DIGITAIS LTDA',
-    type: 'juridic_person',
+    type: 'legal_person',
     date: '13/04/2023'
   }, 
   {
@@ -19,7 +19,7 @@ const data: IPersonCardProps[] = [
   {
     id: '3',
     name: 'SOLO FORTE AGROPECUARIA LTDA',
-    type: 'juridic_person',
+    type: 'legal_person',
     date: '26/05/2023'
   },
   {
@@ -58,7 +58,7 @@ export function Dashboard(){
           title="Pessoas juridicas" 
           amount="88" 
           lastRegister="último cadastro feito em 15 de junho"
-        type='juridic_person'
+        type='legal_person'
       />
     </S.HighlightCards>
 
