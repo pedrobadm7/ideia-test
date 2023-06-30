@@ -3,6 +3,7 @@ import * as S from './styles';
 
 interface IPersonTypeButton extends TouchableOpacityProps {
   type: 'physical_person' | 'legal_person';
+  isActive: boolean
 }
 
 const icon = {
@@ -15,9 +16,9 @@ const categoryName = {
   'legal_person': 'Pessoa Juridica'
 }
 
-export function PersonTypeButton({type, ...rest}: IPersonTypeButton) {
+export function PersonTypeButton({type, isActive, ...rest}: IPersonTypeButton) {
   return (
-    <S.Container {...rest}>
+    <S.Container  isActive={isActive} type={type} {...rest}>
       <S.Icon name={icon[type]}/>
       <S.Title>
         {categoryName[type]}

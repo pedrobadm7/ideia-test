@@ -38,3 +38,8 @@ export const ButtonContainer = styled.View`
   margin: 25px 0;
   padding-bottom: 15px;
 `;
+
+export const PersonTypes = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
