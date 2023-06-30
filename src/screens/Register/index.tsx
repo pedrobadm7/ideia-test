@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../../components/Form/Button';
 import { InputForm } from '../../components/Form/InputForm';
 import { PersonTypeButton } from '../../components/Form/PersonTypeButton';
 import * as S from './styles';
 import { SelectButton } from '../../components/Form/SelectButton';
-import { Modal } from 'react-native';
+import { Alert, Modal } from 'react-native';
 import {  SelectScreen } from '../SelectScreen';
 import { useForm } from 'react-hook-form';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IFormData {
   address?: string;
@@ -41,6 +42,8 @@ export function Register() {
 
   const {control, handleSubmit, reset} = useForm();
 
+  const dataKey = '@ideiaTest:persons';
+
   function resetForm() {
     reset()
   }
@@ -58,8 +61,8 @@ export function Register() {
     setSelectModalOpen(true)
   }
 
-  function handleRegister(form: IFormData) {
-    const data = {
+  async function handleRegister(form: IFormData) {
+    const newTransaction = {
       address: form.address,
       birthday: form.birthday, 
       business: form.business,
@@ -81,8 +84,29 @@ export function Register() {
       state_registration: form.state_registration
     }
 
-    console.log(data)
+    try {
+      const data = await AsyncStorage.getItem(dataKey);
+      const currentData = data ? JSON.parse(data) : [];
+
+      const dataFormatted = [  ...currentData,
+        newTransaction]
+
+      await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
+      
+    } catch (error) {
+      console.log(error);
+      Alert.alert('Não foi possível salvar!')
+    }
   }
+
+  useEffect(() => {
+    async function loadData() {
+      const data = await AsyncStorage.getItem(dataKey);
+      console.log(JSON.parse(data!))
+    }
+
+    loadData()
+  }, [])
 
   return (
     <S.Container>
