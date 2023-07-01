@@ -34,9 +34,6 @@ const schema = Yup.object().shape({
   professional_cellphone: Yup.number().typeError('O telefone profissional deve ser um número').required('O telefone profissional é obrigatório'),
   business: Yup.string().required('O ramo da atividade é obrigatório'),
   legal_representative: Yup.string().required('O representante legal é obrigatório'),
-  type: Yup.string().oneOf(['physical_person', 'legal_person', ''], 'O campo type deve ser uma das opções válidas').required('O campo type é obrigatório'),
-  date: Yup.date().required('O campo date é obrigatório'),
-  id: Yup.string().required('O campo id é obrigatório'),
 });
 
 type NavigationProps = {
@@ -55,7 +52,7 @@ export function LegalPerson({
     handleSubmit, 
     reset,
     formState: { errors } 
-  } = useForm<ILegalPerson>({
+  } = useForm({
     resolver: yupResolver(schema)
   });
   const navigation = useNavigation<NavigationProps>();
@@ -90,7 +87,6 @@ export function LegalPerson({
 
       await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
 
-      setPersonType('');
       resetForm();
       navigation.navigate('Listagem');
 

@@ -33,7 +33,6 @@ export interface IPhysicalPerson {
 const schema = Yup.object().shape({
   complete_name: Yup.string().required('Nome completo é obrigatório.'),
   birth_date: Yup.string().required('Data de nascimento é obriagatória.'),
-  gender: Yup.string().oneOf(['Male', 'Female']).required('O gênero é obrigatório'),
   cpf: Yup.number().required('O CPF é obrigatório').typeError('O CPF deve ser um número'),
   doc_id: Yup.number().required('O doc_id é obrigatório').typeError('O RG deve ser um número'),
   address: Yup.string().required('Endereço é obrigatório'),
@@ -42,9 +41,6 @@ const schema = Yup.object().shape({
   marial_state: Yup.string().required('Estado cívil é obrigatório'),
   profession: Yup.string().required('Informe sua profissão.'),
   nationality: Yup.string().required('Informe sua nacionalidade.'),
-  type: Yup.string().oneOf(['physical_person', 'legal_person', '']).required('O tipo é obrigatório'),
-  date: Yup.date().required('A data é obrigatória'),
-  id: Yup.string().required('O ID é obrigatório'),
 })
 
 type NavigationProps = {
@@ -63,7 +59,7 @@ export function PhysicalPerson({
     handleSubmit, 
     reset,
     formState: {errors}
-   } = useForm<IPhysicalPerson>({
+   } = useForm({
       resolver: yupResolver(schema)
     });
 
@@ -120,7 +116,7 @@ export function PhysicalPerson({
 
       await AsyncStorage.setItem(dataKey, JSON.stringify(dataFormatted));
 
-      setPersonType('');
+
       setGender({
         key: 'gender',
         name: 'Gender'
