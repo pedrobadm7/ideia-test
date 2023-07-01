@@ -33,10 +33,8 @@ async function loadPersons() {
     }).format(new Date(person.date));
 
     return {
-      name: person.complete_name,
-      type: person.type,
-      date,
-      id: person.id
+     ...person,
+     date
     }
   });
 
@@ -48,10 +46,8 @@ async function loadPersons() {
     }).format(new Date(person.date));
 
     return {
-      name: person.corporate_name,
-      type: person.type,
-      date,
-      id: person.id
+      ...person,
+      date
     }
   });
 
@@ -101,10 +97,8 @@ useFocusEffect(useCallback(() => {
       <S.PersonList 
         data={totalPersons}
         keyExtractor={(item: IPersonCardProps) => item.id}
-        renderItem={({item: {name, type, date}}: {item: IPersonCardProps}) => <PersonCard 
-          name={name} 
-          type={type} 
-          date={date}
+        renderItem={({item}: {item: IPersonCardProps}) => <PersonCard 
+          {...item}
         />}
       />
          
