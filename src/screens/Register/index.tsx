@@ -45,9 +45,9 @@ export function Register() {
             </S.PersonTypes>
 
             {personType === 'physical_person' ? (
-              <PhysicalPerson personType={personType} setPersonType={setPersonType} />
+              <PhysicalPerson personType={personType} />
             ) : (
-              <LegalPerson personType={personType} setPersonType={setPersonType}/>
+              <LegalPerson personType={personType} />
             )}
           </S.Fields>
         </S.Form>

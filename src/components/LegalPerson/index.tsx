@@ -44,10 +44,8 @@ type NavigationProps = {
 
 export function LegalPerson({
   personType,
-  setPersonType
 }: {
   personType: 'physical_person' | 'legal_person' | '',
-  setPersonType: (personType: 'physical_person' | 'legal_person' | '') => void
 }) {
   const { 
     control, 

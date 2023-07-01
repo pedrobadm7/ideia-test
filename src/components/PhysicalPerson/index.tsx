@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { InputMasked } from '../Form/InputMasked';
 import { Masks } from 'react-native-mask-input';
+import { rgRegex } from '../../utils/rgRegex';
 
 export interface IPhysicalPerson {
   complete_name: string;
@@ -50,10 +51,8 @@ type NavigationProps = {
 
 export function PhysicalPerson({
   personType,
-  setPersonType
 }: {
   personType: 'physical_person' | 'legal_person' | '',
-  setPersonType: (personType: 'physical_person' | 'legal_person' | '') => void
 }) {
   const { 
     control, 
@@ -168,7 +167,7 @@ export function PhysicalPerson({
         control={control as any}
         placeholder='Documento de identidade'
         error={errors.doc_id && errors.doc_id.message}
-        mask={[/\d/, /\d/,'.', /\d/, /\d/, /\d/,'.', /\d/, /\d/, /\d/,'-', /\d/]}
+        mask={rgRegex}
       />
       <InputForm
         name='address'
