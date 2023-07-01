@@ -25,15 +25,15 @@ export interface ILegalPerson {
 }
 
 const schema = Yup.object().shape({
-  corporate_name: Yup.string().required('O campo corporate_name é obrigatório'),
-  cnpj: Yup.number().typeError('O campo cnpj deve ser um número').required('O campo cnpj é obrigatório'),
-  state_registration: Yup.string().required('O campo state_registration é obrigatório'),
-  opening_date: Yup.string().required('O campo opening_date é obrigatório'),
-  fantasy_name: Yup.string().required('O campo fantasy_name é obrigatório'),
-  comercial_address: Yup.string().required('O campo comercial_address é obrigatório'),
-  professional_cellphone: Yup.number().typeError('O campo professional_cellphone deve ser um número').required('O campo professional_cellphone é obrigatório'),
-  business: Yup.string().required('O campo business é obrigatório'),
-  legal_representative: Yup.string().required('O campo legal_representative é obrigatório'),
+  corporate_name: Yup.string().required('A razão social é obrigatória.'),
+  cnpj: Yup.number().typeError('O CNPJdeve ser um número').required('O campo CNPJ é obrigatório.'),
+  state_registration: Yup.string().required('A Inscrição estadual é obrigatória.'),
+  opening_date: Yup.string().required('A data de abertura da empresa é obrigatória.'),
+  fantasy_name: Yup.string().required('O nome fantasia é obrigatório.'),
+  comercial_address: Yup.string().required('O endereço comercial é obrigatório.'),
+  professional_cellphone: Yup.number().typeError('O telefone profissional deve ser um número').required('O telefone profissional é obrigatório'),
+  business: Yup.string().required('O ramo da atividade é obrigatório'),
+  legal_representative: Yup.string().required('O representante legal é obrigatório'),
   type: Yup.string().oneOf(['physical_person', 'legal_person', ''], 'O campo type deve ser uma das opções válidas').required('O campo type é obrigatório'),
   date: Yup.date().required('O campo date é obrigatório'),
   id: Yup.string().required('O campo id é obrigatório'),
@@ -50,7 +50,12 @@ export function LegalPerson({
   personType: 'physical_person' | 'legal_person' | '',
   setPersonType: (personType: 'physical_person' | 'legal_person' | '') => void
 }) {
-  const { control, handleSubmit, reset } = useForm<ILegalPerson>({
+  const { 
+    control, 
+    handleSubmit, 
+    reset,
+    formState: { errors } 
+  } = useForm<ILegalPerson>({
     resolver: yupResolver(schema)
   });
   const navigation = useNavigation<NavigationProps>();
@@ -102,46 +107,55 @@ export function LegalPerson({
         name='corporate_name'
         control={control as any}
         placeholder='Razão Social'
+        error={errors.corporate_name && errors.corporate_name.message}
       />
       <InputForm
         name='cnpj'
         control={control as any}
         placeholder='CNPJ'
+        error={errors.cnpj && errors.cnpj.message}
       />
       <InputForm
         name='state_registration'
         control={control as any}
         placeholder='Inscrição Estadual'
+        error={errors.state_registration && errors.state_registration.message}
       />
       <InputForm
         name='opening_date'
         control={control as any}
         placeholder='Data de abertura da empresa'
+        error={errors.opening_date && errors.opening_date.message}
       />
       <InputForm
         name='fantasy_name'
         control={control as any}
         placeholder='Nome fantasia'
+        error={errors.fantasy_name && errors.fantasy_name.message}
       />
       <InputForm
         name='comercial_address'
         control={control as any}
         placeholder='Endereço Comercial'
+        error={errors.comercial_address && errors.comercial_address.message}
       />
       <InputForm
         name='professional_cellphone'
         control={control as any}
         placeholder='Número de telefone'
+        error={errors.professional_cellphone && errors.professional_cellphone.message}
       />
       <InputForm
         name='business'
         control={control as any}
         placeholder='Ramo de atividade da empresa'
+        error={errors.business && errors.business.message}
       />
       <InputForm
         name='legal_representative'
         control={control as any}
         placeholder='Representante legal'
+        error={errors.legal_representative && errors.legal_representative.message}
       />
 
       <S.ButtonContainer>

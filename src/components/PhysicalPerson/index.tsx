@@ -61,7 +61,9 @@ export function PhysicalPerson({
   const { 
     control, 
     handleSubmit, 
-    reset } = useForm<IPhysicalPerson>({
+    reset,
+    formState: {errors}
+   } = useForm<IPhysicalPerson>({
       resolver: yupResolver(schema)
     });
 
@@ -141,12 +143,13 @@ export function PhysicalPerson({
         control={control as any}
         placeholder='Nome Completo'
         autoCapitalize='words'
+        error={errors.complete_name && errors.complete_name.message}
       />
       <InputForm
         name='birth_date'
         control={control as any}
         placeholder='Data de nascimento'
-
+        error={errors.birth_date && errors.birth_date.message}
       />
       <SelectButton
         title={gender.name}
@@ -156,41 +159,49 @@ export function PhysicalPerson({
         name='cpf'
         control={control as any}
         placeholder='CPF'
+        error={errors.cpf && errors.cpf.message}
       />
       <InputForm
         name='doc_id'
         control={control as any}
         placeholder='Documento de identidade'
+        error={errors.doc_id && errors.doc_id.message}
       />
       <InputForm
         name='address'
         control={control as any}
         placeholder='Endereço'
+        error={errors.address && errors.address.message}
       />
       <InputForm
         name='phone_number'
         control={control as any}
         placeholder='Numero de Telefone'
+        error={errors.phone_number && errors.phone_number.message}
       />
       <InputForm
         name='email'
         control={control as any}
         placeholder='Email'
+        error={errors.email && errors.email.message}
       />
       <InputForm
-        name='marial_status'
+        name='marial_state'
         control={control as any}
         placeholder='Estado civil'
+        error={errors.marial_state && errors.marial_state.message}
       />
       <InputForm
         name='profession'
         control={control as any}
         placeholder='Profissão'
+        error={errors.profession && errors.profession.message}
       />
       <InputForm
         name='nationality'
         control={control as any}
         placeholder='Nacionalidade'
+        error={errors.nationality && errors.nationality.message}
       />
 
       <S.ButtonContainer>
