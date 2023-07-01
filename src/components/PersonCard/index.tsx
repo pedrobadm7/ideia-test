@@ -19,7 +19,6 @@ const icon: KeyType = {
 }
 
 export function PersonCard(props: IPersonCardProps) {
-
   return (
     <S.Container>
       <S.Title>
