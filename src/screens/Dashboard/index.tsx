@@ -1,11 +1,12 @@
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { HightlightCard } from '../../components/HighlightCard'
 import { IPersonCardProps, PersonCard } from '../../components/PersonCard'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as S from './styles'
 import { IPhysicalPerson } from '../../components/PhysicalPerson';
 import { ILegalPerson } from '../../components/LegalPerson';
+import { useFocusEffect } from '@react-navigation/native';
 
 export function Dashboard(){
 const [physicalPersonData, setPhysicalPersonData] = useState<IPhysicalPerson[]>([]);
@@ -61,6 +62,10 @@ async function loadPersons() {
 useEffect(() => {
   loadPersons()
 }, []);
+
+useFocusEffect(useCallback(() => {
+  loadPersons()
+}, []));
 
   return (
    <S.Container>
