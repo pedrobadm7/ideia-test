@@ -6,7 +6,7 @@ import { Control, Controller } from 'react-hook-form';
 interface IInputForm extends TextInputProps {
   control:  Control;
   name: string;
-  error: string | undefined;
+  error?: string | undefined;
 }
 
 export function InputForm({
