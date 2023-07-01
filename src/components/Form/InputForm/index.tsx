@@ -1,10 +1,12 @@
 import { TextInputProps } from 'react-native';
 import { Input } from '../Input';
 import * as S from './styles';
-import { Control, Controller } from 'react-hook-form';
+import { Control, Controller, FieldValues } from 'react-hook-form';
+import { IPhysicalPerson } from '../../PhysicalPerson';
+import { ILegalPerson } from '../../LegalPerson';
 
 interface IInputForm extends TextInputProps {
-  control:  Control;
+  control: Control;
   name: string;
   error?: string | undefined;
 }

@@ -1,4 +1,4 @@
-import { FieldValues, useForm } from 'react-hook-form';
+import { FieldValues, Resolver, useForm } from 'react-hook-form';
 import { InputForm } from '../Form/InputForm';
 import { SelectButton } from '../Form/SelectButton';
 import { useState } from 'react';
@@ -9,6 +9,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as S from './styles';
 import { useNavigation } from '@react-navigation/native';
 import uuid from 'react-native-uuid';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup'
+
 
 export interface IPhysicalPerson {
   complete_name: string;
@@ -27,6 +30,23 @@ export interface IPhysicalPerson {
   id: string
 };
 
+const schema = Yup.object().shape({
+  complete_name: Yup.string().required('Nome completo é obrigatório.'),
+  birth_date: Yup.string().required('Data de nascimento é obriagatória.'),
+  gender: Yup.string().oneOf(['Male', 'Female']).required('O gênero é obrigatório'),
+  cpf: Yup.number().required('O CPF é obrigatório').typeError('O CPF deve ser um número'),
+  doc_id: Yup.number().required('O doc_id é obrigatório').typeError('O RG deve ser um número'),
+  address: Yup.string().required('Endereço é obrigatório'),
+  phone_number: Yup.number().required('O número de telefone é obrigatório').typeError('O número de telefone deve ser um número'),
+  email: Yup.string().required('Email é obrigatório'),
+  marial_state: Yup.string().required('Estado cívil é obrigatório'),
+  profession: Yup.string().required('Informe sua profissão.'),
+  nationality: Yup.string().required('Informe sua nacionalidade.'),
+  type: Yup.string().oneOf(['physical_person', 'legal_person', '']).required('O tipo é obrigatório'),
+  date: Yup.date().required('A data é obrigatória'),
+  id: Yup.string().required('O ID é obrigatório'),
+})
+
 type NavigationProps = {
   navigate: (screen: string) => void;
 }
@@ -38,7 +58,13 @@ export function PhysicalPerson({
   personType: 'physical_person' | 'legal_person' | '',
   setPersonType: (personType: 'physical_person' | 'legal_person' | '') => void
 }) {
-  const { control, handleSubmit, reset } = useForm();
+  const { 
+    control, 
+    handleSubmit, 
+    reset } = useForm<IPhysicalPerson>({
+      resolver: yupResolver(schema)
+    });
+
   const navigation = useNavigation<NavigationProps>();
 
   const [gender, setGender] = useState({
@@ -60,6 +86,10 @@ export function PhysicalPerson({
   }
 
   async function handleRegister(form: FieldValues) {
+    if (gender.name === 'Gênero') {
+      return Alert.alert('Selecione um genêro!');
+    }
+
 
     const newPhysicalPerson: IPhysicalPerson = {
       complete_name: form.complete_name,
@@ -108,13 +138,13 @@ export function PhysicalPerson({
     <>
       <InputForm
         name='complete_name'
-        control={control}
+        control={control as any}
         placeholder='Nome Completo'
         autoCapitalize='words'
       />
       <InputForm
         name='birth_date'
-        control={control}
+        control={control as any}
         placeholder='Data de nascimento'
 
       />
@@ -124,42 +154,42 @@ export function PhysicalPerson({
       />
       <InputForm
         name='cpf'
-        control={control}
+        control={control as any}
         placeholder='CPF'
       />
       <InputForm
         name='doc_id'
-        control={control}
+        control={control as any}
         placeholder='Documento de identidade'
       />
       <InputForm
         name='address'
-        control={control}
+        control={control as any}
         placeholder='Endereço'
       />
       <InputForm
         name='phone_number'
-        control={control}
+        control={control as any}
         placeholder='Numero de Telefone'
       />
       <InputForm
         name='email'
-        control={control}
+        control={control as any}
         placeholder='Email'
       />
       <InputForm
         name='marial_status'
-        control={control}
+        control={control as any}
         placeholder='Estado civil'
       />
       <InputForm
         name='profession'
-        control={control}
+        control={control as any}
         placeholder='Profissão'
       />
       <InputForm
         name='nationality'
-        control={control}
+        control={control as any}
         placeholder='Nacionalidade'
       />
 
