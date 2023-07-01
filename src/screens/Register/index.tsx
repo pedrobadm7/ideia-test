@@ -3,8 +3,8 @@ import { PersonTypeButton } from '../../components/Form/PersonTypeButton';
 import * as S from './styles';
 import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { useForm } from 'react-hook-form';
-import { IPhysicalPerson, PhysicalPerson } from '../../components/PhysicalPerson';
-import { ILegalPerson, LegalPerson } from '../../components/LegalPerson';
+import { PhysicalPerson } from '../../components/PhysicalPerson';
+import {  LegalPerson } from '../../components/LegalPerson';
 
 export function Register() {
 
