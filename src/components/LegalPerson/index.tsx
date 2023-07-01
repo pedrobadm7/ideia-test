@@ -8,15 +8,17 @@ import { Alert } from 'react-native';
 import uuid from 'react-native-uuid';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Masks } from 'react-native-mask-input';
+import { InputMasked } from '../Form/InputMasked';
 
 export interface ILegalPerson {
   corporate_name: string;
-  cnpj: number;
+  cnpj: string;
   state_registration: string;
   opening_date: string;
   fantasy_name: string;
   comercial_address: string;
-  professional_cellphone: number;
+  professional_cellphone: string;
   business: string;
   legal_representative: string;
   type: 'physical_person' | 'legal_person' | '';
@@ -26,12 +28,12 @@ export interface ILegalPerson {
 
 const schema = Yup.object().shape({
   corporate_name: Yup.string().required('A razão social é obrigatória.'),
-  cnpj: Yup.number().typeError('O CNPJdeve ser um número').required('O campo CNPJ é obrigatório.'),
+  cnpj: Yup.string().required('O campo CNPJ é obrigatório.'),
   state_registration: Yup.string().required('A Inscrição estadual é obrigatória.'),
   opening_date: Yup.string().required('A data de abertura da empresa é obrigatória.'),
   fantasy_name: Yup.string().required('O nome fantasia é obrigatório.'),
   comercial_address: Yup.string().required('O endereço comercial é obrigatório.'),
-  professional_cellphone: Yup.number().typeError('O telefone profissional deve ser um número').required('O telefone profissional é obrigatório'),
+  professional_cellphone: Yup.string().required('O telefone profissional é obrigatório'),
   business: Yup.string().required('O ramo da atividade é obrigatório'),
   legal_representative: Yup.string().required('O representante legal é obrigatório'),
 });
@@ -105,23 +107,28 @@ export function LegalPerson({
         placeholder='Razão Social'
         error={errors.corporate_name && errors.corporate_name.message}
       />
-      <InputForm
+      <InputMasked
         name='cnpj'
+        keyboardType='numeric'
         control={control as any}
         placeholder='CNPJ'
         error={errors.cnpj && errors.cnpj.message}
+        mask={Masks.BRL_CNPJ}
       />
       <InputForm
         name='state_registration'
+        keyboardType='numeric'
         control={control as any}
         placeholder='Inscrição Estadual'
         error={errors.state_registration && errors.state_registration.message}
       />
-      <InputForm
+      <InputMasked
         name='opening_date'
+        keyboardType='numeric'
         control={control as any}
         placeholder='Data de abertura da empresa'
         error={errors.opening_date && errors.opening_date.message}
+        mask={Masks.DATE_DDMMYYYY}
       />
       <InputForm
         name='fantasy_name'
@@ -135,11 +142,13 @@ export function LegalPerson({
         placeholder='Endereço Comercial'
         error={errors.comercial_address && errors.comercial_address.message}
       />
-      <InputForm
+      <InputMasked
         name='professional_cellphone'
+        keyboardType='numeric'
         control={control as any}
         placeholder='Número de telefone'
         error={errors.professional_cellphone && errors.professional_cellphone.message}
+        mask={Masks.BRL_PHONE}
       />
       <InputForm
         name='business'

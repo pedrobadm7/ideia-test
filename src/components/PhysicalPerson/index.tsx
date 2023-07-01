@@ -11,16 +11,17 @@ import { useNavigation } from '@react-navigation/native';
 import uuid from 'react-native-uuid';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup'
-
+import { InputMasked } from '../Form/InputMasked';
+import { Masks } from 'react-native-mask-input';
 
 export interface IPhysicalPerson {
   complete_name: string;
   birth_date: string;
   gender: 'Male' | 'Female';
-  cpf: number;
-  doc_id: number;
+  cpf: string;
+  doc_id: string;
   address: string;
-  phone_number: number;
+  phone_number: string;
   email: string;
   marial_state: string;
   profession: string;
@@ -33,11 +34,11 @@ export interface IPhysicalPerson {
 const schema = Yup.object().shape({
   complete_name: Yup.string().required('Nome completo é obrigatório.'),
   birth_date: Yup.string().required('Data de nascimento é obriagatória.'),
-  cpf: Yup.number().required('O CPF é obrigatório').typeError('O CPF deve ser um número'),
-  doc_id: Yup.number().required('O doc_id é obrigatório').typeError('O RG deve ser um número'),
+  cpf: Yup.string().required('O CPF é obrigatório'),
+  doc_id: Yup.string().required('O doc_id é obrigatório'),
   address: Yup.string().required('Endereço é obrigatório'),
-  phone_number: Yup.number().required('O número de telefone é obrigatório').typeError('O número de telefone deve ser um número'),
-  email: Yup.string().required('Email é obrigatório'),
+  phone_number: Yup.string().required('O número de telefone é obrigatório'),
+  email: Yup.string().email('Digite um email válido').required('Email é obrigatório'),
   marial_state: Yup.string().required('Estado cívil é obrigatório'),
   profession: Yup.string().required('Informe sua profissão.'),
   nationality: Yup.string().required('Informe sua nacionalidade.'),
@@ -141,27 +142,33 @@ export function PhysicalPerson({
         autoCapitalize='words'
         error={errors.complete_name && errors.complete_name.message}
       />
-      <InputForm
+      <InputMasked
         name='birth_date'
+        keyboardType='numeric'
         control={control as any}
         placeholder='Data de nascimento'
         error={errors.birth_date && errors.birth_date.message}
+        mask={Masks.DATE_DDMMYYYY}
       />
       <SelectButton
         title={gender.name}
         onPress={handleOpenSelectModal}
       />
-      <InputForm
+      <InputMasked
         name='cpf'
+        keyboardType='numeric'
         control={control as any}
         placeholder='CPF'
         error={errors.cpf && errors.cpf.message}
+        mask={Masks.BRL_CPF}
       />
-      <InputForm
+      <InputMasked
         name='doc_id'
+        keyboardType='numeric'
         control={control as any}
         placeholder='Documento de identidade'
         error={errors.doc_id && errors.doc_id.message}
+        mask={[/\d/, /\d/,'.', /\d/, /\d/, /\d/,'.', /\d/, /\d/, /\d/,'-', /\d/]}
       />
       <InputForm
         name='address'
@@ -169,11 +176,12 @@ export function PhysicalPerson({
         placeholder='Endereço'
         error={errors.address && errors.address.message}
       />
-      <InputForm
+      <InputMasked
         name='phone_number'
         control={control as any}
         placeholder='Numero de Telefone'
         error={errors.phone_number && errors.phone_number.message}
+        mask={Masks.BRL_PHONE}
       />
       <InputForm
         name='email'
