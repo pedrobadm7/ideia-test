@@ -8,6 +8,7 @@ import { Button } from '../Form/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as S from './styles';
 import { useNavigation } from '@react-navigation/native';
+import uuid from 'react-native-uuid';
 
 export interface IPhysicalPerson {
   complete_name: string;
@@ -21,8 +22,9 @@ export interface IPhysicalPerson {
   marial_state: string;
   profession: string;
   nationality: string;
-  type: 'physical_person' | 'legal_person';
+  type: 'physical_person' | 'legal_person' | '';
   date: Date;
+  id: string
 };
 
 type NavigationProps = {
@@ -33,8 +35,8 @@ export function PhysicalPerson({
   personType,
   setPersonType
 }: {
-  personType: 'physical_person' | 'legal_person',
-  setPersonType: (personType: string) => void
+  personType: 'physical_person' | 'legal_person' | '',
+  setPersonType: (personType: 'physical_person' | 'legal_person' | '') => void
 }) {
   const { control, handleSubmit, reset } = useForm();
   const navigation = useNavigation<NavigationProps>();
@@ -73,6 +75,7 @@ export function PhysicalPerson({
       nationality: form.nationality,
       type: personType,
       date: new Date(),
+      id: String(uuid.v4())
     }
 
     try {
@@ -92,7 +95,7 @@ export function PhysicalPerson({
       });
       resetForm()
 
-      navigation.navigate('Listagem')
+      navigation.navigate('Listagem');
 
     } catch (error) {
       console.log(error);

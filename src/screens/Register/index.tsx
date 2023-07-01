@@ -43,7 +43,7 @@ const schema = Yup.object().shape({
 
 export function Register() {
 
-  const [personType, setPersonType] = useState('physical_person');
+  const [personType, setPersonType] = useState<'physical_person' | 'legal_person' | ''>('physical_person');
 
   const { reset } = useForm();
 
@@ -55,7 +55,7 @@ export function Register() {
     setPersonType(type);
     resetForm();
   }
-  
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <S.Container>
@@ -82,7 +82,7 @@ export function Register() {
             {personType === 'physical_person' ? (
               <PhysicalPerson personType={personType} setPersonType={setPersonType} />
             ) : (
-              <LegalPerson />
+              <LegalPerson personType={personType} setPersonType={setPersonType}/>
             )}
           </S.Fields>
         </S.Form>
