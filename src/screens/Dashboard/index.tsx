@@ -12,7 +12,6 @@ const [physicalPersonData, setPhysicalPersonData] = useState<IPhysicalPerson[]>(
 const [legalPersonData, setLegalPersonData] = useState<ILegalPerson[]>([]);
 
 const totalPersons: (IPhysicalPerson | ILegalPerson)[] = [...physicalPersonData, ...legalPersonData];
-console.log(totalPersons)
 
 async function loadPersons() {
   const physicalPersonDataKey = '@ideiaTest:physical_person';
