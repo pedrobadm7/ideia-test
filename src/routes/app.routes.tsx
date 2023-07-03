@@ -74,19 +74,6 @@ function MainTabNavigatorFlow() {
           )
         }}
       />
-      <TabScreen
-        name='Resumo'
-        component={Register}
-        options={{
-          tabBarIcon: (({ size, color }) =>
-            <MaterialIcons
-              name='subject'
-              size={size}
-              color={color}
-            />
-          )
-        }}
-      />
     </TabNavigator>
   )
 }
