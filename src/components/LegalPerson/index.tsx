@@ -10,6 +10,8 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Masks } from 'react-native-mask-input';
 import { InputMasked } from '../Form/InputMasked';
+import { useState } from 'react';
+import * as DocumentPicker from 'expo-document-picker';
 
 export interface ILegalPerson {
   corporate_name: string;
@@ -24,6 +26,8 @@ export interface ILegalPerson {
   type: 'physical_person' | 'legal_person' | '';
   date: Date;
   id: string;
+  file?: any;
+  image?: string
 }
 
 const schema = Yup.object().shape({
@@ -47,15 +51,19 @@ export function LegalPerson({
 }: {
   personType: 'physical_person' | 'legal_person' | '',
 }) {
-  const { 
-    control, 
-    handleSubmit, 
+  const {
+    control,
+    handleSubmit,
     reset,
-    formState: { errors } 
+    formState: { errors }
   } = useForm({
     resolver: yupResolver(schema)
   });
+
   const navigation = useNavigation<NavigationProps>();
+
+  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedFile, setSelectedFile] = useState('');
 
   function resetForm() {
     reset()
@@ -74,7 +82,9 @@ export function LegalPerson({
       legal_representative: form.legal_representative,
       type: personType,
       date: new Date(),
-      id: String(uuid.v4())
+      id: String(uuid.v4()),
+      file: selectedFile,
+      image: selectedImage,
     }
 
     try {
@@ -94,6 +104,19 @@ export function LegalPerson({
       console.log(error);
 
       Alert.alert('Não foi possível cadastrar a pessoa juridica.')
+    }
+  };
+
+  async function selectDoc() {
+    const doc: any = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: true, type: ["image/*", "application/pdf"] });
+    try {
+     
+      setSelectedFile(doc);
+      setSelectedImage(doc.uri)
+
+    } catch (err) {
+      console.log(err)
+
     }
   }
 
@@ -160,6 +183,11 @@ export function LegalPerson({
         placeholder='Representante legal'
         error={errors.legal_representative && errors.legal_representative.message}
       />
+
+      <S.FileChoosen>
+        <S.FileText>Document picker:</S.FileText>
+        <Button title={selectedFile || selectedImage ? 'Documento selecionado' : 'Selecione um documento'} onPress={selectDoc} />
+      </S.FileChoosen>
 
       <S.ButtonContainer>
         <Button

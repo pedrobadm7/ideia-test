@@ -36,7 +36,6 @@ export function DetailsScreen({ route }: IDetailScreenProps) {
     })
   }
 
-  console.log(person)
   if (person.type === 'legal_person') {
     return (
       <S.Container>
@@ -87,6 +86,16 @@ export function DetailsScreen({ route }: IDetailScreenProps) {
             <S.CardTitle>Representante Legal:</S.CardTitle>
             <S.Text>{person.legal_representative}</S.Text>
           </S.Card>
+
+          {person?.file ? (<S.Card>
+           
+              <TouchableOpacity onPress={handleFileNavigate}>
+                <S.CardTitle>Documento cadastrado</S.CardTitle>
+                <S.Text>{person.file?.name}</S.Text>
+              </TouchableOpacity>
+            
+          </S.Card>
+          ) : null}
         </S.CardContainer>
       </S.Container>
     )
@@ -152,10 +161,12 @@ export function DetailsScreen({ route }: IDetailScreenProps) {
           </S.Card>
 
           <S.Card>
-            <TouchableOpacity onPress={handleFileNavigate}>
-              <S.CardTitle>Documento cadastrado</S.CardTitle>
-              <S.Text>{person.file?.name}</S.Text>
-            </TouchableOpacity>
+            {person?.file ? (
+              <TouchableOpacity onPress={handleFileNavigate}>
+                <S.CardTitle>Documento cadastrado</S.CardTitle>
+                <S.Text>{person.file?.name}</S.Text>
+              </TouchableOpacity>
+            ) : null}
           </S.Card>
         </S.CardContainer>
       </S.Container>

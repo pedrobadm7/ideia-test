@@ -26,7 +26,7 @@ function DetailScreenFlow() {
       />
       <DetailsStackScreen 
         name='Files'
-        component={FileReader}
+        component={FileReader as any}
       />
     </DetailsNavigator>
   )
