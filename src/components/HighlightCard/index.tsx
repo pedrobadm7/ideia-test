@@ -3,7 +3,7 @@ import * as S from './styles'
 interface IHighlightCardProps {
   title: string;
   amount: string;
-  lastRegister: string;
+  lastRegister?: string;
   type: 'physical_person' | 'legal_person'
 }
 

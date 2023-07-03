@@ -17,8 +17,8 @@ type NavigationProps = {
 export function Dashboard() {
   const [physicalPersonData, setPhysicalPersonData] = useState<IPhysicalPerson[]>([]);
   const [legalPersonData, setLegalPersonData] = useState<ILegalPerson[]>([]);
-  const [lastPhysicalDateRegistered, setLastPhysicalDateRegistered] = useState<string>();
-  const [lastLegalDateRegistered, setLastLegalDateRegistered] = useState<string>();
+  const [lastPhysicalDateRegistered, setLastPhysicalDateRegistered] = useState<string>('');
+  const [lastLegalDateRegistered, setLastLegalDateRegistered] = useState<string>('');
   
 
   const navigation = useNavigation<NavigationProps>();
@@ -62,45 +62,49 @@ export function Dashboard() {
       }
     });
 
-    if (physicalPersonData.length > 0) {
-      const lastPhysicalPersonRegistered =
-      new Date(
-        Math.max.apply(
-          Math,
-          physicalPersons
-            .map((physicalPerson: IPhysicalPerson) => new Date(physicalPerson.date)
-              .getTime())
-        )
-      );
+    // if (physicalPersonData.length > 0) {
+    //   const lastPhysicalPersonRegistered =
+    //   new Date(
+    //     Math.max.apply(
+    //       Math,
+    //       physicalPersons
+    //         .map((physicalPerson: IPhysicalPerson) => new Date(physicalPerson.date)
+    //           .getTime())
+    //     )
+    //   );
 
-    const lastPhysicalPersonRegisteredFormatted = Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    }).format(new Date(lastPhysicalPersonRegistered));
+    //   if (physicalPersonData.length > 0) {
+    //     const lastPhysicalPersonRegisteredFormatted = Intl.DateTimeFormat('pt-BR', {
+    //       day: '2-digit',
+    //       month: '2-digit',
+    //       year: 'numeric'
+    //     }).format(new Date(lastPhysicalPersonRegistered));
 
-    setLastPhysicalDateRegistered(lastPhysicalPersonRegisteredFormatted);
-    }
+    //     setLastPhysicalDateRegistered(lastPhysicalPersonRegisteredFormatted);
+    //   }
 
-    if (legalPersonData.length > 0) {
-      const lastLegalPersonRegistered =
-      new Date(
-        Math.max.apply(
-          Math,
-          legalPersons
-            .map((legalPerson: ILegalPerson) => new Date(legalPerson.date)
-              .getTime())
-        )
-      );
+      
+    // }
 
-    const lastLegalPersonRegisteredFormatted = Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    }).format(new Date(lastLegalPersonRegistered));
+    // if (legalPersonData.length > 0) {
+    //   const lastLegalPersonRegistered =
+    //   new Date(
+    //     Math.max.apply(
+    //       Math,
+    //       legalPersons
+    //         .map((legalPerson: ILegalPerson) => new Date(legalPerson.date)
+    //           .getTime())
+    //     )
+    //   );
 
-    setLastLegalDateRegistered(lastLegalPersonRegisteredFormatted);
-    }
+    //   const lastLegalPersonRegisteredFormatted = Intl.DateTimeFormat('pt-BR', {
+    //     day: '2-digit',
+    //     month: '2-digit',
+    //     year: 'numeric'
+    //   }).format(new Date(lastLegalPersonRegistered));
+
+    //   setLastLegalDateRegistered(lastLegalPersonRegisteredFormatted);
+    // }
 
     setPhysicalPersonData(physicalPersonsFormatted);
     setLegalPersonData(legalPersonsFormatted);
@@ -119,11 +123,12 @@ export function Dashboard() {
 
   useEffect(() => {
     loadPersons()
-  }, []);
+    console.log(lastPhysicalDateRegistered)
+  }, [lastPhysicalDateRegistered]);
 
   useFocusEffect(useCallback(() => {
     loadPersons()
-  }, []));
+  }, [lastPhysicalDateRegistered]));
 
   return (
     <S.Container>
@@ -142,13 +147,13 @@ export function Dashboard() {
         <HightlightCard
           title="Pessoas físicas"
           amount={String(physicalPersonData?.length)}
-          lastRegister={lastPhysicalDateRegistered ? `último cadastro feito em ${lastPhysicalDateRegistered}` : 'Sem registros'}
+        
           type='physical_person'
         />
         <HightlightCard
           title="Pessoas juridicas"
           amount={String(legalPersonData?.length)}
-          lastRegister={lastLegalDateRegistered ? `último cadastro feito em ${lastLegalDateRegistered}` : 'Sem registros'}
+          
           type='legal_person'
         />
       </S.HighlightCards>
