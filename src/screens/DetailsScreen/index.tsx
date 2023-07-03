@@ -160,14 +160,15 @@ export function DetailsScreen({ route }: IDetailScreenProps) {
             <S.Text>{person.nationality}</S.Text>
           </S.Card>
 
+          {person?.file ? (
           <S.Card>
-            {person?.file ? (
               <TouchableOpacity onPress={handleFileNavigate}>
                 <S.CardTitle>Documento cadastrado</S.CardTitle>
                 <S.Text>{person.file?.name}</S.Text>
-              </TouchableOpacity>
-            ) : null}
+              </TouchableOpacity>    
           </S.Card>
+          ) : null}
+          
         </S.CardContainer>
       </S.Container>
     )
