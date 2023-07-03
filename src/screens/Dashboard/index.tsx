@@ -9,6 +9,7 @@ import { ILegalPerson } from '../../components/LegalPerson';
 import { useFocusEffect } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
+import { TYPES } from '../../utils/enums';
 
 type NavigationProps = {
   navigate: (screen: string, ...parameter: any) => void;
@@ -148,13 +149,13 @@ export function Dashboard() {
           title="Pessoas físicas"
           amount={String(physicalPersonData?.length)}
         
-          type='physical_person'
+          type={TYPES.PHYSICAL_PERSON}
         />
         <HightlightCard
           title="Pessoas juridicas"
           amount={String(legalPersonData?.length)}
           
-          type='legal_person'
+          type={TYPES.LEGAL_PERSON}
         />
       </S.HighlightCards>
 

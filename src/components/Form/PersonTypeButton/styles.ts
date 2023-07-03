@@ -2,10 +2,11 @@ import { TouchableOpacity } from 'react-native';
 import styled, { DefaultTheme, css } from 'styled-components/native';
 import {Ionicons} from '@expo/vector-icons'
 import { RFValue } from 'react-native-responsive-fontsize';
+import { TYPES } from '../../../utils/enums';
 
 interface IContainerProps {
   isActive: boolean;
-  type: 'physical_person' | 'legal_person';
+  type: TYPES.PHYSICAL_PERSON | TYPES.LEGAL_PERSON;
 }
 
 export const Container = styled(TouchableOpacity)<IContainerProps>`
@@ -22,11 +23,11 @@ export const Container = styled(TouchableOpacity)<IContainerProps>`
 
   padding: 16px;
 
-  ${({isActive, type}: IContainerProps) => isActive && type === 'physical_person' && css`
+  ${({isActive, type}: IContainerProps) => isActive && type === TYPES.PHYSICAL_PERSON && css`
     background-color: ${({theme}) => theme.colors.success_light} ;
   `}
 
-  ${({isActive, type}: IContainerProps) => isActive && type === 'legal_person' && css`
+  ${({isActive, type}: IContainerProps) => isActive && type === TYPES.LEGAL_PERSON && css`
     background-color: ${({theme}) => theme.colors.attention_light} ;
   `}
 `;

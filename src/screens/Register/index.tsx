@@ -5,10 +5,11 @@ import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { PhysicalPerson } from '../../components/PhysicalPerson';
 import {  LegalPerson } from '../../components/LegalPerson';
+import { TYPES } from '../../utils/enums';
 
 export function Register() {
 
-  const [personType, setPersonType] = useState<'physical_person' | 'legal_person' | ''>('physical_person');
+  const [personType, setPersonType] = useState<TYPES.PHYSICAL_PERSON | TYPES.LEGAL_PERSON | ''>(TYPES.PHYSICAL_PERSON);
 
   const { reset } = useForm();
 
@@ -16,7 +17,7 @@ export function Register() {
     reset()
   }
 
-  function handlePersonTypeSelect(type: 'physical_person' | 'legal_person') {
+  function handlePersonTypeSelect(type: TYPES.PHYSICAL_PERSON | TYPES.LEGAL_PERSON) {
     setPersonType(type);
     resetForm();
   }
@@ -33,18 +34,18 @@ export function Register() {
 
             <S.PersonTypes>
               <PersonTypeButton
-                type='physical_person'
-                onPress={() => handlePersonTypeSelect('physical_person')}
-                isActive={personType === 'physical_person'}
+                type={TYPES.PHYSICAL_PERSON}
+                onPress={() => handlePersonTypeSelect(TYPES.PHYSICAL_PERSON)}
+                isActive={personType === TYPES.PHYSICAL_PERSON}
               />
               <PersonTypeButton
-                type='legal_person'
-                onPress={() => handlePersonTypeSelect('legal_person')}
-                isActive={personType === 'legal_person'}
+                type={TYPES.LEGAL_PERSON}
+                onPress={() => handlePersonTypeSelect(TYPES.LEGAL_PERSON)}
+                isActive={personType ===  TYPES.LEGAL_PERSON}
               />
             </S.PersonTypes>
 
-            {personType === 'physical_person' ? (
+            {personType === TYPES.PHYSICAL_PERSON ? (
               <PhysicalPerson personType={personType} />
             ) : (
               <LegalPerson personType={personType} />

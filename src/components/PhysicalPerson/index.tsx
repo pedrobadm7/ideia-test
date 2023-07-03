@@ -15,6 +15,7 @@ import { InputMasked } from '../Form/InputMasked';
 import { Masks } from 'react-native-mask-input';
 import { rgRegex } from '../../utils/rgRegex';
 import * as DocumentPicker from 'expo-document-picker';
+import { TYPES } from '../../utils/enums';
 
 export interface IPhysicalPerson {
   complete_name: string;
@@ -28,7 +29,7 @@ export interface IPhysicalPerson {
   marial_state: string;
   profession: string;
   nationality: string;
-  type: 'physical_person' | 'legal_person' | '';
+  type: TYPES.PHYSICAL_PERSON | TYPES.LEGAL_PERSON | '';
   date: Date;
   id: string;
   file?: any;
@@ -55,7 +56,7 @@ type NavigationProps = {
 export function PhysicalPerson({
   personType,
 }: {
-  personType: 'physical_person' | 'legal_person' | '',
+  personType: TYPES.PHYSICAL_PERSON | TYPES.LEGAL_PERSON | '',
 }) {
   const {
     control,

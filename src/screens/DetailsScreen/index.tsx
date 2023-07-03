@@ -3,6 +3,7 @@ import { IPhysicalPerson } from '../../components/PhysicalPerson';
 import { ILegalPerson } from '../../components/LegalPerson';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
+import { TYPES } from '../../utils/enums';
 
 interface IDetailScreenProps extends IPhysicalPerson, ILegalPerson {
   route: {
@@ -36,7 +37,7 @@ export function DetailsScreen({ route }: IDetailScreenProps) {
     })
   }
 
-  if (person.type === 'legal_person') {
+  if (person.type === TYPES.LEGAL_PERSON) {
     return (
       <S.Container>
         <S.Header>

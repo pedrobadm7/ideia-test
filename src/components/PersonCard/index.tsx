@@ -1,37 +1,38 @@
+import { TYPES } from '../../utils/enums';
 import { ILegalPerson } from '../LegalPerson';
 import { IPhysicalPerson } from '../PhysicalPerson';
 import * as S from './styles';
 
 export interface IPersonCardProps extends IPhysicalPerson, ILegalPerson {}
 
-interface KeyType {
-  [key: string]: string;
+type KeyType = {
+  [key in TYPES]: string;
 }
 
 const categoryName: KeyType = {
-  'physical_person': 'Pessoa Física',
-  'legal_person': 'Pessoa Juridica'
+  [TYPES.PHYSICAL_PERSON]: 'Pessoa Física',
+  [TYPES.LEGAL_PERSON]: 'Pessoa Juridica'
 }
 
 const icon: KeyType = {
-  'physical_person': 'person',
-  'legal_person': 'md-business-sharp'
+  [TYPES.PHYSICAL_PERSON]: 'person',
+  [TYPES.LEGAL_PERSON]: 'md-business-sharp'
 }
 
 export function PersonCard(props: IPersonCardProps) {
   return (
     <S.Container>
       <S.Title>
-        {props.type==='physical_person' ? props.complete_name : props.corporate_name}
+        {props.type=== TYPES.PHYSICAL_PERSON ? props.complete_name : props.corporate_name}
       </S.Title>
       
       <S.Footer>
         <S.Category>
 
-          <S.Icon name={icon[props.type]}/>
+          <S.Icon name={icon[props.type as TYPES]}/>
 
           <S.CategoryName>
-           {categoryName[props.type]}
+           {categoryName[props.type as TYPES]}
           </S.CategoryName>
 
         </S.Category>
