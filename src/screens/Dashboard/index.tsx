@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native';
 
 type NavigationProps = {
-  navigate: (screen: string, parameter?: any) => void;
+  navigate: (screen: string, ...parameter: any) => void;
 }
 
 export function Dashboard() {
@@ -100,10 +100,15 @@ export function Dashboard() {
     setLegalPersonData(legalPersonsFormatted);
   };
 
-  function handleCardNavigation() {
-    navigation.navigate('DetalhesFlow', {
-      screen: 'Detalhes'
-    })
+  function handleCardNavigation(id: string) {
+  const person = totalPersons.filter((person) => person.id === id);
+
+  navigation.navigate('DetalhesFlow', {
+    screen: 'Detalhes',
+    params: {
+      data: person
+    }
+  })
   }
 
   useEffect(() => {
@@ -150,7 +155,7 @@ export function Dashboard() {
           keyExtractor={(item: IPersonCardProps) => item.id}
           renderItem={({ item }: { item: IPersonCardProps }) =>
           (
-            <TouchableOpacity onPress={handleCardNavigation}>
+            <TouchableOpacity onPress={() => handleCardNavigation(item.id)}>
               <PersonCard
                 {...item}
               />

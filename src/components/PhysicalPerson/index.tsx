@@ -92,7 +92,7 @@ export function PhysicalPerson({
     const newPhysicalPerson: IPhysicalPerson = {
       complete_name: form.complete_name,
       birth_date: form.birth_date,
-      gender: form.gender,
+      gender: gender.name as "Male" | "Female",
       cpf: form.cpf,
       doc_id: form.doc_id,
       address: form.address,
