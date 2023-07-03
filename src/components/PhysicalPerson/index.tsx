@@ -2,7 +2,7 @@ import { FieldValues, Resolver, useForm } from 'react-hook-form';
 import { InputForm } from '../Form/InputForm';
 import { SelectButton } from '../Form/SelectButton';
 import { useState } from 'react';
-import { Alert, Modal } from 'react-native';
+import { Alert, Image, Modal, View, } from 'react-native';
 import { SelectScreen } from '../../screens/SelectScreen';
 import { Button } from '../Form/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +14,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { InputMasked } from '../Form/InputMasked';
 import { Masks } from 'react-native-mask-input';
 import { rgRegex } from '../../utils/rgRegex';
+import { Text } from 'react-native';
+import * as DocumentPicker from 'expo-document-picker';
+import * as FileSystem from 'expo-file-system';
 
 export interface IPhysicalPerson {
   complete_name: string;
@@ -54,14 +57,14 @@ export function PhysicalPerson({
 }: {
   personType: 'physical_person' | 'legal_person' | '',
 }) {
-  const { 
-    control, 
-    handleSubmit, 
+  const {
+    control,
+    handleSubmit,
     reset,
-    formState: {errors}
-   } = useForm({
-      resolver: yupResolver(schema)
-    });
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(schema)
+  });
 
   const navigation = useNavigation<NavigationProps>();
 
@@ -70,6 +73,8 @@ export function PhysicalPerson({
     name: 'Gender',
   });
   const [selectModalOpen, setSelectModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   function handleCloseSelectModal() {
     setSelectModalOpen(false)
@@ -129,6 +134,26 @@ export function PhysicalPerson({
       console.log(error);
 
       Alert.alert('Não foi possível cadastrar a pessoa física.')
+    }
+  };
+
+  async function selectDoc() {
+    const doc: any = await DocumentPicker.getDocumentAsync({copyToCacheDirectory: true, type: ["image/*","application/pdf"]});
+    try {
+      console.log(doc);
+
+      if (doc.type==='application/pdf') {
+        setSelectedFile(doc.uri);
+      };
+
+      if (doc.type === 'cancel') {
+        console.log('User cancelled the upload')
+      }
+
+      setSelectedImage(doc.uri)
+    } catch (err) {
+      console.log(err)
+     
     }
   }
 
@@ -207,6 +232,13 @@ export function PhysicalPerson({
         error={errors.nationality && errors.nationality.message}
       />
 
+      {/* <View style={{ marginBottom: 20 }}>
+        <Text style={{ fontSize: 20 }}>Document picker:</Text>
+        <Button title='Select Document' onPress={selectDoc} />
+      </View>
+
+      {selectedImage && <Image source={{ uri: selectedImage }} style={{ width: 200, height: 200 }} />} */}
+      
       <S.ButtonContainer>
         <Button
           title='Enviar'

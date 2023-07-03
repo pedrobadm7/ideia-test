@@ -19,6 +19,7 @@ export function Dashboard() {
   const [legalPersonData, setLegalPersonData] = useState<ILegalPerson[]>([]);
   const [lastPhysicalDateRegistered, setLastPhysicalDateRegistered] = useState<string>();
   const [lastLegalDateRegistered, setLastLegalDateRegistered] = useState<string>();
+  
 
   const navigation = useNavigation<NavigationProps>();
 
@@ -101,14 +102,14 @@ export function Dashboard() {
   };
 
   function handleCardNavigation(id: string) {
-  const person = totalPersons.filter((person) => person.id === id);
+    const person = totalPersons.filter((person) => person.id === id);
 
-  navigation.navigate('DetalhesFlow', {
-    screen: 'Detalhes',
-    params: {
-      data: person
-    }
-  })
+    navigation.navigate('DetalhesFlow', {
+      screen: 'Detalhes',
+      params: {
+        data: person
+      }
+    })
   }
 
   useEffect(() => {

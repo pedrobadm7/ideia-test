@@ -21,7 +21,7 @@ function DetailScreenFlow() {
     >
       <DetailsStackScreen
         name='Detalhes'
-        component={DetailsScreen}
+        component={DetailsScreen as any}
       />
     </DetailsNavigator>
   )
