@@ -62,7 +62,8 @@ export function Dashboard() {
       }
     });
 
-    const lastPhysicalPersonRegistered =
+    if (physicalPersonData.length > 0) {
+      const lastPhysicalPersonRegistered =
       new Date(
         Math.max.apply(
           Math,
@@ -78,7 +79,11 @@ export function Dashboard() {
       year: 'numeric'
     }).format(new Date(lastPhysicalPersonRegistered));
 
-    const lastLegalPersonRegistered =
+    setLastPhysicalDateRegistered(lastPhysicalPersonRegisteredFormatted);
+    }
+
+    if (legalPersonData.length > 0) {
+      const lastLegalPersonRegistered =
       new Date(
         Math.max.apply(
           Math,
@@ -91,11 +96,11 @@ export function Dashboard() {
     const lastLegalPersonRegisteredFormatted = Intl.DateTimeFormat('pt-BR', {
       day: '2-digit',
       month: '2-digit',
-      year: '2-digit'
+      year: 'numeric'
     }).format(new Date(lastLegalPersonRegistered));
 
-    setLastPhysicalDateRegistered(lastPhysicalPersonRegisteredFormatted);
     setLastLegalDateRegistered(lastLegalPersonRegisteredFormatted);
+    }
 
     setPhysicalPersonData(physicalPersonsFormatted);
     setLegalPersonData(legalPersonsFormatted);
@@ -137,13 +142,13 @@ export function Dashboard() {
         <HightlightCard
           title="Pessoas físicas"
           amount={String(physicalPersonData?.length)}
-          lastRegister={`último cadastro feito em ${lastPhysicalDateRegistered}`}
+          lastRegister={lastPhysicalDateRegistered ? `último cadastro feito em ${lastPhysicalDateRegistered}` : 'Sem registros'}
           type='physical_person'
         />
         <HightlightCard
           title="Pessoas juridicas"
           amount={String(legalPersonData?.length)}
-          lastRegister={`último cadastro feito em ${lastLegalDateRegistered}`}
+          lastRegister={lastLegalDateRegistered ? `último cadastro feito em ${lastLegalDateRegistered}` : 'Sem registros'}
           type='legal_person'
         />
       </S.HighlightCards>
