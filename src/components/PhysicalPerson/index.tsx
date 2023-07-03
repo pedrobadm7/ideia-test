@@ -2,7 +2,7 @@ import { FieldValues, Resolver, useForm } from 'react-hook-form';
 import { InputForm } from '../Form/InputForm';
 import { SelectButton } from '../Form/SelectButton';
 import { useState } from 'react';
-import { Alert, Image, Modal, View, } from 'react-native';
+import { Alert, Image, Modal, ScrollView, View, } from 'react-native';
 import { SelectScreen } from '../../screens/SelectScreen';
 import { Button } from '../Form/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,9 +14,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { InputMasked } from '../Form/InputMasked';
 import { Masks } from 'react-native-mask-input';
 import { rgRegex } from '../../utils/rgRegex';
-import { Text } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
 
 export interface IPhysicalPerson {
   complete_name: string;
@@ -32,7 +30,9 @@ export interface IPhysicalPerson {
   nationality: string;
   type: 'physical_person' | 'legal_person' | '';
   date: Date;
-  id: string
+  id: string;
+  file?: any;
+  image?: string;
 };
 
 const schema = Yup.object().shape({
@@ -73,8 +73,8 @@ export function PhysicalPerson({
     name: 'Gender',
   });
   const [selectModalOpen, setSelectModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedImage, setSelectedImage] = useState('');
+  const [selectedFile, setSelectedFile] = useState('');
 
   function handleCloseSelectModal() {
     setSelectModalOpen(false)
@@ -108,7 +108,9 @@ export function PhysicalPerson({
       nationality: form.nationality,
       type: personType,
       date: new Date(),
-      id: String(uuid.v4())
+      id: String(uuid.v4()),
+      file: selectedFile,
+      image: selectedImage
     }
 
     try {
@@ -138,22 +140,15 @@ export function PhysicalPerson({
   };
 
   async function selectDoc() {
-    const doc: any = await DocumentPicker.getDocumentAsync({copyToCacheDirectory: true, type: ["image/*","application/pdf"]});
+    const doc: any = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: true, type: ["image/*", "application/pdf"] });
     try {
-      console.log(doc);
-
-      if (doc.type==='application/pdf') {
-        setSelectedFile(doc.uri);
-      };
-
-      if (doc.type === 'cancel') {
-        console.log('User cancelled the upload')
-      }
-
+     
+      setSelectedFile(doc);
       setSelectedImage(doc.uri)
+
     } catch (err) {
       console.log(err)
-     
+
     }
   }
 
@@ -232,13 +227,11 @@ export function PhysicalPerson({
         error={errors.nationality && errors.nationality.message}
       />
 
-      {/* <View style={{ marginBottom: 20 }}>
-        <Text style={{ fontSize: 20 }}>Document picker:</Text>
-        <Button title='Select Document' onPress={selectDoc} />
-      </View>
+      <S.FileChoosen>
+        <S.FileText>Document picker:</S.FileText>
+        <Button title={selectedFile || selectedImage ? 'Documento selecionado' : 'Selecione um documento'}  onPress={selectDoc} />
+      </S.FileChoosen>
 
-      {selectedImage && <Image source={{ uri: selectedImage }} style={{ width: 200, height: 200 }} />} */}
-      
       <S.ButtonContainer>
         <Button
           title='Enviar'

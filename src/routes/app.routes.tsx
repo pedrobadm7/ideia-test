@@ -7,6 +7,7 @@ import { Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { DetailsScreen } from '../screens/DetailsScreen';
+import { FileReader } from '../screens/FileReader';
 
 const { Navigator: TabNavigator, Screen: TabScreen } = createBottomTabNavigator();
 const { Navigator: DetailsNavigator, Screen: DetailsStackScreen } = createNativeStackNavigator();
@@ -22,6 +23,10 @@ function DetailScreenFlow() {
       <DetailsStackScreen
         name='Detalhes'
         component={DetailsScreen as any}
+      />
+      <DetailsStackScreen 
+        name='Files'
+        component={FileReader}
       />
     </DetailsNavigator>
   )
@@ -100,7 +105,7 @@ export function AppRoutes() {
           component={MainTabNavigatorFlow}
         />
         <StackScreen
-          name='DetalhesFlow'
+          name='MainFlow'
           component={DetailScreenFlow}
         />
       </StackNavigator>

@@ -27,6 +27,15 @@ export function DetailsScreen({ route }: IDetailScreenProps) {
     navigation.goBack()
   }
 
+  function handleFileNavigate() {
+    navigation.navigate('MainFlow', {
+      screen: 'Files',
+      params: {
+        file: person?.file
+      }
+    })
+  }
+
   console.log(person)
   if (person.type === 'legal_person') {
     return (
@@ -141,9 +150,16 @@ export function DetailsScreen({ route }: IDetailScreenProps) {
             <S.CardTitle>Nacionalidade:</S.CardTitle>
             <S.Text>{person.nationality}</S.Text>
           </S.Card>
+
+          <S.Card>
+            <TouchableOpacity onPress={handleFileNavigate}>
+              <S.CardTitle>Documento cadastrado</S.CardTitle>
+              <S.Text>{person.file?.name}</S.Text>
+            </TouchableOpacity>
+          </S.Card>
         </S.CardContainer>
       </S.Container>
     )
   }
- 
+
 }

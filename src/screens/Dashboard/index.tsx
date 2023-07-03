@@ -109,7 +109,7 @@ export function Dashboard() {
   function handleCardNavigation(id: string) {
     const person = totalPersons.filter((person) => person.id === id);
 
-    navigation.navigate('DetalhesFlow', {
+    navigation.navigate('MainFlow', {
       screen: 'Detalhes',
       params: {
         data: person
