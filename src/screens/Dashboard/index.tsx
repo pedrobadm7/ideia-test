@@ -7,12 +7,20 @@ import * as S from './styles'
 import { IPhysicalPerson } from '../../components/PhysicalPerson';
 import { ILegalPerson } from '../../components/LegalPerson';
 import { useFocusEffect } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
+
+type NavigationProps = {
+  navigate: (screen: string, parameter?: any) => void;
+}
 
 export function Dashboard() {
   const [physicalPersonData, setPhysicalPersonData] = useState<IPhysicalPerson[]>([]);
   const [legalPersonData, setLegalPersonData] = useState<ILegalPerson[]>([]);
   const [lastPhysicalDateRegistered, setLastPhysicalDateRegistered] = useState<string>();
   const [lastLegalDateRegistered, setLastLegalDateRegistered] = useState<string>();
+
+  const navigation = useNavigation<NavigationProps>();
 
   const totalPersons: (IPhysicalPerson | ILegalPerson)[] = [...physicalPersonData, ...legalPersonData];
 
@@ -53,15 +61,15 @@ export function Dashboard() {
       }
     });
 
-    const lastPhysicalPersonRegistered = 
-    new Date(
-      Math.max.apply(
-        Math,
-        physicalPersons
-          .map((physicalPerson: IPhysicalPerson) => new Date(physicalPerson.date)
-            .getTime())
-      )
-    );
+    const lastPhysicalPersonRegistered =
+      new Date(
+        Math.max.apply(
+          Math,
+          physicalPersons
+            .map((physicalPerson: IPhysicalPerson) => new Date(physicalPerson.date)
+              .getTime())
+        )
+      );
 
     const lastPhysicalPersonRegisteredFormatted = Intl.DateTimeFormat('pt-BR', {
       day: '2-digit',
@@ -69,15 +77,15 @@ export function Dashboard() {
       year: 'numeric'
     }).format(new Date(lastPhysicalPersonRegistered));
 
-    const lastLegalPersonRegistered = 
-    new Date(
-      Math.max.apply(
-        Math,
-        legalPersons
-          .map((legalPerson: ILegalPerson) => new Date(legalPerson.date)
-            .getTime())
-      )
-    );
+    const lastLegalPersonRegistered =
+      new Date(
+        Math.max.apply(
+          Math,
+          legalPersons
+            .map((legalPerson: ILegalPerson) => new Date(legalPerson.date)
+              .getTime())
+        )
+      );
 
     const lastLegalPersonRegisteredFormatted = Intl.DateTimeFormat('pt-BR', {
       day: '2-digit',
@@ -90,6 +98,12 @@ export function Dashboard() {
 
     setPhysicalPersonData(physicalPersonsFormatted);
     setLegalPersonData(legalPersonsFormatted);
+  };
+
+  function handleCardNavigation() {
+    navigation.navigate('DetalhesFlow', {
+      screen: 'Detalhes'
+    })
   }
 
   useEffect(() => {
@@ -134,9 +148,15 @@ export function Dashboard() {
         <S.PersonList
           data={totalPersons}
           keyExtractor={(item: IPersonCardProps) => item.id}
-          renderItem={({ item }: { item: IPersonCardProps }) => <PersonCard
-            {...item}
-          />}
+          renderItem={({ item }: { item: IPersonCardProps }) =>
+          (
+            <TouchableOpacity onPress={handleCardNavigation}>
+              <PersonCard
+                {...item}
+              />
+            </TouchableOpacity>
+          )
+          }
         />
 
       </S.Persons>

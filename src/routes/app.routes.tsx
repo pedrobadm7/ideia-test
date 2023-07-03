@@ -1,16 +1,37 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Dashboard } from '../screens/Dashboard';
 import { Register } from '../screens/Register';
 import { useTheme } from 'styled-components';
 import { Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { NavigationContainer } from '@react-navigation/native';
+import { DetailsScreen } from '../screens/DetailsScreen';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+const { Navigator: TabNavigator, Screen: TabScreen } = createBottomTabNavigator();
+const { Navigator: DetailsNavigator, Screen: DetailsStackScreen } = createNativeStackNavigator();
+const { Navigator: StackNavigator, Screen: StackScreen } = createNativeStackNavigator();
 
-export function AppRoutes() {
-  const theme = useTheme()
+function DetailScreenFlow() {
   return (
-    <Navigator
+    <DetailsNavigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
+      <DetailsStackScreen
+        name='Detalhes'
+        component={DetailsScreen}
+      />
+    </DetailsNavigator>
+  )
+}
+
+function MainTabNavigatorFlow() {
+  const theme = useTheme();
+
+  return (
+    <TabNavigator
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: theme.colors.secondary,
@@ -22,12 +43,12 @@ export function AppRoutes() {
         }
       }}
     >
-      <Screen 
+      <TabScreen
         name='Listagem'
         component={Dashboard}
         options={{
-          tabBarIcon: (({size, color}) =>
-            <MaterialIcons 
+          tabBarIcon: (({ size, color }) =>
+            <MaterialIcons
               name='format-list-bulleted'
               size={size}
               color={color}
@@ -35,12 +56,12 @@ export function AppRoutes() {
           )
         }}
       />
-      <Screen 
+      <TabScreen
         name='Cadastro'
         component={Register}
         options={{
-          tabBarIcon: (({size, color}) =>
-            <MaterialIcons 
+          tabBarIcon: (({ size, color }) =>
+            <MaterialIcons
               name='attach-file'
               size={size}
               color={color}
@@ -48,12 +69,12 @@ export function AppRoutes() {
           )
         }}
       />
-      <Screen 
+      <TabScreen
         name='Resumo'
         component={Register}
         options={{
-          tabBarIcon: (({size, color}) =>
-            <MaterialIcons 
+          tabBarIcon: (({ size, color }) =>
+            <MaterialIcons
               name='subject'
               size={size}
               color={color}
@@ -61,6 +82,29 @@ export function AppRoutes() {
           )
         }}
       />
-    </Navigator>
+    </TabNavigator>
+  )
+}
+
+export function AppRoutes() {
+
+  return (
+    <NavigationContainer>
+      <StackNavigator
+        screenOptions={{
+          headerShown: false
+        }}
+      >
+        <StackScreen
+          name='ListagemFlow'
+          component={MainTabNavigatorFlow}
+        />
+        <StackScreen
+          name='DetalhesFlow'
+          component={DetailScreenFlow}
+        />
+      </StackNavigator>
+    </NavigationContainer>
+
   )
 }
